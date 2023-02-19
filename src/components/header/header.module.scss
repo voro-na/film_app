@@ -1,0 +1,26 @@
+@use "../../styles/main" as *;
+
+.header{
+  @include flex(row, center, space-between);
+  padding: 1rem 2rem;
+}
+
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: height 0.3s ease, background-color 0.3s ease;
+
+  &_li{
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $text-color;
+    @include underline();
+  }
+}
+
+ul{
+  display: flex;
+  flex-direction: row;
+}

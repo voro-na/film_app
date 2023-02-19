@@ -1,0 +1,16 @@
+@use "../../styles/main" as *;
+
+.btn{
+  color: $hover-color;
+  border: 2px $hover-color solid;
+  padding: 0.8em;
+  max-width: 50%;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1em;
+  transition-duration: 0.4s;
+}
+.btn:hover{
+  background-color: $hover-color;
+  color: white;
+}

@@ -1,0 +1,68 @@
+@use "../../styles/main" as *;
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr fit-content(50%);
+  margin: 1em auto;
+  max-width: 70rem;
+  padding: 2%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 2rem;
+  background-size: cover;
+}
+
+.text_container {
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: none;
+}
+
+.main_info {
+  @include flex(row, center, space-between);
+
+  font-weight: bold;
+  color: $hover-color;
+  padding: 1em;
+  background: none;
+}
+
+.title {
+  color: white;
+  font-size: 2.5em;
+  text-align: start;
+}
+
+.rating {
+  color: white;
+  font-size: 1.5em;
+  background-color: $hover-color;
+  border-radius: 30px;
+  padding: 0.5em 1.2em;
+}
+
+.poster {
+  @include img();
+  margin: 0.5em;
+  max-width: 30rem;
+  width: 100%;
+}
+
+.list_info {
+  padding: 1em;
+  font-size: 1.2em;
+  color: $hover-color;
+  @include flex(row, center, space-between);
+
+  &_bold {
+    @include flex(row, center, right);
+    flex-flow: row wrap;
+  }
+  &_data {
+    font-weight: bold;
+    color: white;
+    padding: 0.5em;
+    @include underline();
+  }
+}
