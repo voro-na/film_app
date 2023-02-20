@@ -56,9 +56,16 @@ const SliderItem = (props: { item: movie }) => {
                         ))}
                     </td>
                 </tr>
+
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <Button text={'Подробнее о фильме'} link={'/'}/>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-            <Button text={'Подробнее о фильме'}/>
         </div>
         <img className={styles.poster} src={movie.posterUrl} alt={movie.nameRu}/>
     </div>

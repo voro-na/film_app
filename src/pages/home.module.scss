@@ -8,9 +8,22 @@
 .list_header{
   display: flex;
   justify-content: space-between;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
+  align-items: center;
 
 }
 .movie_collection{
   margin: 0 1rem;
+}
+@media only screen and (max-width: 600px) {
+  .container{
+    font-size: 0.7rem;
+  }
+  .title{
+    font-size: 1rem;
+  }
+  .movie_collection{
+    margin: 0 auto;
+  }
+
 }

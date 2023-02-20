@@ -38,7 +38,7 @@ const Slider = () => {
             {/*<button onClick={e => fetch(e)}>data</button>*/}
             <Swiper modules={[Navigation, Pagination]}
                     navigation={true}
-                    pagination={{clickable: true}}
+                    // pagination={{clickable: true}}
                     slidesPerView={1}>
                 {isLoading ? (
                         <div>Loading ...</div>

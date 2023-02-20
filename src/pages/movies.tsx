@@ -3,6 +3,7 @@ import api from "../api/apiRequests";
 import {moviesList} from "../models/models";
 import MovieCard from "../components/movie_card/movieCard";
 import styles from './movies.module.scss'
+import Button, {ButtonLoad} from "../components/button/button";
 
 const Movies = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const Movies = () => {
                 <MovieCard item={item} key={item.filmId}/>
             ))}
         </div>
-
+        <ButtonLoad text={'Показать больше'}/>
     </>)
 }
 
