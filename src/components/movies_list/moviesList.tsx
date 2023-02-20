@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import {movie, moviesList, filterMovie,filterMovieList} from "../../models/models";
 
 import MovieCard from "../movie_card/movieCard";
+import {useWindowDimensions} from "../../functions/windowDimenstions";
 
 interface ChildComponentProps {
     type: string;
@@ -17,29 +18,6 @@ interface ChildComponentProps {
 const MoviesList = ({type}: ChildComponentProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [moviesList, setMoviesList] = useState<moviesList>();
-    //todo window info in another file
-    function getWindowDimensions() {
-        const { innerWidth: width, innerHeight: height } = window;
-        return {
-            width,
-            height
-        };
-    }
-
-    function useWindowDimensions() {
-        const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
-        useEffect(() => {
-            function handleResize() {
-                setWindowDimensions(getWindowDimensions());
-            }
-
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener('resize', handleResize);
-        }, []);
-
-        return windowDimensions;
-    }
 
     useEffect(() => {
         const getMovies = async () => {
@@ -55,7 +33,11 @@ const MoviesList = ({type}: ChildComponentProps) => {
     }, [])
 
     useWindowDimensions();
-    let numberMovies = (window.innerWidth - window.innerWidth % 300) / 300;
+    let numberMovies;
+    if (window.innerWidth > 600)
+        numberMovies = (window.innerWidth - window.innerWidth % 300) / 300;
+    else
+        numberMovies = (window.innerWidth - window.innerWidth % 200) / 200;
 
     return (<>
         <Swiper modules={[Navigation]}

@@ -20,6 +20,7 @@
   font-size: 1em;
   font-weight: bold;
   text-align: center;
+  @include underline();
 }
 
 @media only screen and (max-width: 600px){
