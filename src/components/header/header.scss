@@ -1,0 +1,36 @@
+@use "../../styles/main" as *;
+
+
+.header{
+  @include flex(row, center, space-between);
+  padding: 1rem 2rem;
+
+  &__content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    transition: height 0.3s ease, background-color 0.3s ease;
+  }
+  &__item{
+    padding: 5px 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $text-color;
+    @include underline();
+  }
+  &__list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .header__content{
+    font-size: 0.8rem;
+  }
+  .header__list{
+    display: flex;
+    flex-direction: column;
+  }
+}

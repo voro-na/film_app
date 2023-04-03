@@ -1,74 +1,56 @@
-import {movie} from "../../models/models";
-import React, {useState} from "react";
-import styles from "./sliderItem.module.scss";
-import Button from "../button/button";
+import React from 'react'
 
-const SliderItem = (props: { item: movie }) => {
+import './sliderItem.scss'
+import { type movie } from '../../models/models'
+import Button from '../button/button'
+// todo reverstka
+const SliderItem = (props: { item: movie }): JSX.Element => {
+  const movie: movie = props.item
 
-    const movie: movie = props.item;
-
-    //const [detailedInfo, setDetailedInfo] = useState<any>();
-
-
-    // useEffect(() =>{
-    //     const getDetailedIngo = async (id: number) =>{
-    //         const res = await api.getDetailedInfo(id);
-    //
-    //         setDetailedInfo(res?.data);
-    //     }
-    //     getDetailedIngo(movie.filmId);
-    // }, [movie])
-
-    //const detailedInfo = getDateiledIngo(movie.filmId);
-    // if (props?.active){
-    //     api.getDetailedInfo(movie.filmId).then(res => setDetailedInfo(res))
-    // }
-
-    //console.log(detailedInfo);
-    return <div className={styles.container} style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.8) 100%),
+  return <div className={'slider-film'} style={{
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.8) 100%),
             url(${movie.posterUrl})`
-    }}>
-        <div className={styles.text_container}>
-            <div className={styles.main_info}>
-                <div className={styles.title}>{movie.nameRu}</div>
-                <div className={styles.rating}>{movie.rating ? movie.rating : 'Нет оценок'}</div>
-            </div>
-            <table>
-                <tbody>
-                <tr className={styles.list_info}>
-                    <td>Год производства</td>
-                    <td className={styles.list_info_data}>{movie.year}</td>
-                </tr>
-                <tr className={styles.list_info}>
-                    <td>Страна</td>
-                    <td className={styles.list_info_bold}>
-                        {movie.countries.map((item, index) => (
-                            <div className={styles.list_info_data} key={index}>{item.country}</div>
-                        ))}
-                    </td>
-                </tr>
-                <tr className={styles.list_info}>
-                    <td>Жанр</td>
-                    <td className={styles.list_info_bold}>
-                        {movie.genres.map((item, index) => (
-                            <div className={styles.list_info_data} key={index}>{item.genre}</div>
-                        ))}
-                    </td>
-                </tr>
+  }}>
+    <div className={'slider-film__text-description'}>
+      <div className={'slider-film__main-info'}>
+        <div className={'slider-film__main-info_title'}>{movie.nameRu}</div>
+        <div className={'slider-film__main-info_rating'}>{(movie.rating !== '') ? movie.rating : 'Нет оценок'}</div>
+      </div>
+      <table>
+        <tbody>
+        <tr className={'slider-film__addition-info'}>
+          <td>Год производства</td>
+          <td className={'slider-film__addition-info_text'}>{movie.year}</td>
+        </tr>
+        <tr className={'slider-film__addition-info'}>
+          <td>Страна</td>
+          <td className={'slider-film__addition-info_text_bold'}>
+            {movie.countries.map((item, index) => (
+              <div className={'slider-film__addition-info_text'} key={index}>{item.country}</div>
+            ))}
+          </td>
+        </tr>
+        <tr className={'slider-film__addition-info'}>
+          <td>Жанр</td>
+          <td className={'slider-film__addition-info_text_bold'}>
+            {movie.genres.map((item, index) => (
+              <div className={'slider-film__addition-info_text'} key={index}>{item.genre}</div>
+            ))}
+          </td>
+        </tr>
 
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            <Button text={'Подробнее о фильме'} link={'/'}/>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <img className={styles.poster} src={movie.posterUrl} alt={movie.nameRu}/>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td>
+            <Button text={'Подробнее о фильме'} link={'/'} type={''}/>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
     </div>
+    <img className={'slider-film_poster'} src={movie.posterUrl} alt={movie.nameRu}/>
+  </div>
 }
 
 export default SliderItem

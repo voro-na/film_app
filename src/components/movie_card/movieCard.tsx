@@ -1,12 +1,13 @@
-import {movie} from "../../models/models";
-import styles from "./movieCard.module.scss";
-import React from "react";
+import React from 'react'
 
-const MovieCard = ({item}: {item: movie}) =>{
-    return <div className={styles.container}>
-        <img className={styles.img} src={item.posterUrlPreview}/>
-        <div className={styles.title}>{item.nameRu}</div>
-    </div>
+import './movieCard.scss'
+import { type filterMovie, type movie } from '../../models/models'
+
+const MovieCard = ({ item }: { item: movie | filterMovie }): JSX.Element => {
+  return <div className={'movie-card'}>
+    <img className={'movie-card__image'} src={item.posterUrlPreview} alt="poster"/>
+    <div className={'movie-card__title'}>{item.nameRu}</div>
+  </div>
 }
 
 export default MovieCard

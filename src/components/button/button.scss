@@ -1,6 +1,6 @@
 @use "../../styles/main" as *;
 
-.btn{
+.button{
   color: $hover-color;
   border: 2px $hover-color solid;
   padding: 0.8em;
@@ -12,7 +12,7 @@
   text-align: center;
 
 }
-.btn:hover{
+.button:hover{
   background-color: $hover-color;
   color: white;
 }

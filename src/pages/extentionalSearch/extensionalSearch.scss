@@ -1,0 +1,33 @@
+@use "../../styles/main" as *;
+
+.title {
+  @include flex(row, center, center);
+  color: $hover-color;
+}
+
+.form-container {
+  @include flex(column, right, center);
+  margin: 1rem;
+  padding: 1rem 2rem;
+  border: 2px solid $hover-color;
+  border-radius: 20px;
+}
+
+.form__category {
+  @include flex(column, flex-start, center);
+  font-size: 1.5rem;
+
+}
+.form__input{
+  margin: 1rem 0;
+  padding: 5px;
+  color: #747179;
+  background-color: transparent;
+  width: 300px;
+  border: 2px solid $hover-color;
+  border-radius: 20px;
+}
+.form__row-section{
+  display: flex;
+  flex-direction: row;
+}

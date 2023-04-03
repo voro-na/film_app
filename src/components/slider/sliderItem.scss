@@ -1,6 +1,6 @@
 @use "../../styles/main" as *;
 
-.container {
+.slider-film {
   display: grid;
   grid-template-columns: 1fr fit-content(50%);
   margin: 1em auto;
@@ -11,12 +11,12 @@
   background-size: cover;
 
   @media only screen and (max-width: 600px) {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }
 
-.text_container {
+.slider-film__text-description {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -24,64 +24,62 @@
 
 }
 
-.main_info {
+.slider-film__main-info {
   @include flex(row, center, space-between);
 
   font-weight: bold;
   color: $hover-color;
   padding: 1em;
   background: none;
-}
 
-.title {
-  color: white;
-  font-size: 2.5em;
-  text-align: start;
+  &_title{
+    color: white;
+    font-size: 2.5em;
+    text-align: start;
+  }
+  &_rating{
+    color: white;
+    font-size: 1.5em;
+    background-color: $hover-color;
+    border-radius: 30px;
+    padding: 0.5em 1.2em;
+  }
 }
-
-.rating {
-  color: white;
-  font-size: 1.5em;
-  background-color: $hover-color;
-  border-radius: 30px;
-  padding: 0.5em 1.2em;
-}
-
-.poster {
-  @include img();
-  margin: 0.5em auto;
-  max-width: 30rem;
-  width: 100%;
-}
-
-.list_info {
+.slider-film__addition-info{
   padding: 1em;
   font-size: 1.2em;
   color: $hover-color;
   @include flex(row, center, space-between);
 
-  &_bold {
+  &_text_bold {
     @include flex(row, center, right);
     flex-flow: row wrap;
   }
-  &_data {
+  &_text {
     font-weight: bold;
     color: white;
     padding: 0.5em;
     @include underline();
   }
 }
+.slider-film_poster {
+  @include img();
+  margin: 0.5em auto;
+  max-width: 30rem;
+  width: 100%;
+}
+
 @media only screen and (max-width: 600px){
-  .poster{
+  .slider-film_poster{
     max-width: 300px;
   }
-  .text_container{
+  .slider-film__text-description{
     margin-bottom: 1rem;
   }
-  .title{
+  .sliderFilm__main-info_title{
     font-size: 1.5rem;
   }
-  .list_info{
+  .slider-film__addition-info{
     font-size: 0.8rem;
   }
 }

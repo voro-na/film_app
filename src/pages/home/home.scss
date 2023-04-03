@@ -1,0 +1,30 @@
+.home-page {
+  margin: 0 2rem;
+}
+
+.collection-title {
+  color: #667fbf;
+}
+
+.movies-collection {
+  margin: 0 1rem;
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .home-page {
+    font-size: 0.7rem;
+  }
+  .movies-collection {
+    margin: 0 auto;
+  }
+  .collection-title {
+    font-size: 1rem;
+  }
+}

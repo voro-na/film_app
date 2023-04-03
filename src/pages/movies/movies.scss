@@ -1,0 +1,39 @@
+@use "../../styles/main" as *;
+
+.movies-page{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 1rem;
+}
+.movies-page_title{
+  @include flex(row, center, center);
+  color: $hover-color;
+}
+
+.form{
+  margin: 1rem;
+  display: flex;
+  gap: 1rem;
+
+  &_button{
+    color: $hover-color;
+    background-color: transparent;
+    border: 2px $hover-color solid;
+    padding: 0.8em;
+    max-width: 50%;
+    border-radius: 20px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    text-align: center;
+  }
+  &_button:hover{
+    background-color: $hover-color;
+    color: white;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .movies-page{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,20 +1,22 @@
-import React from "react";
-import {
-    Route,
-    Routes,
-} from "react-router-dom";
-import Home from "./Home";
-import Movies from "./movies";
+import React from 'react'
 
+import { Route, Routes } from 'react-router-dom'
 
-const MainRoutes = () => {
+import ExtensionalSearch from './extentionalSearch/extensionalSearch'
+import Home from './home/Home'
+import LoginPage from './loginRegister/loginPage'
+import RegisterPage from './loginRegister/registerPage'
+import Movies from './movies/movies'
 
-    return <Routes>
-        <Route path='*' element={<Home/>}/>
-        <Route path='/' element={<Home/>}/>
-        <Route path = '/movies' element={<Movies/>}/>
-    </Routes>
-
+const MainRoutes = (): JSX.Element => {
+  return <Routes>
+    <Route path="*" element={<Home/>}/>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/movies" element={<Movies/>}/>
+    <Route path="/search" element={<ExtensionalSearch/>}/>
+    <Route path="/login" element={<LoginPage/>}/>
+    <Route path="/register" element={<RegisterPage/>}/>
+  </Routes>
 }
 
 export default MainRoutes

@@ -1,58 +1,60 @@
-import React, {useEffect, useState} from "react";
-import api from "../../api/apiRequests";
-import {Swiper, SwiperSlide} from "swiper/react";
-import SwiperCore, {Autoplay, Navigation, Pagination} from "swiper";
-import "swiper/css";
-// для модулей навигации и пагинации
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import {moviesList, movie} from "../../models/models";
-import SliderItem from "./sliderItem";
-//todo refactor import
+import React, { useEffect, useState, memo } from 'react'
 
-const Slider = () => {
-    const [popularMovies, setPopularMovies] = useState<moviesList>();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+import { observer } from 'mobx-react-lite'
+import { Navigation } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
+import SliderItem from './sliderItem'
+import api from '../../api/apiRequests'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import { type movie } from '../../models/models'
+import filmStore from '../../store/filmStore'
 
-    useEffect(() => {
-        const getPopularMovies = async () => {
-            setIsLoading(true);
+const Slider = observer(() => {
+  const [popularMovies, setPopularMovies] = useState<movie[]>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-            const res = await api.getPopularMovie();
-            setPopularMovies(res?.data);
-            setIsLoading(false);
-        }
-        getPopularMovies();
+  useEffect(() => {
+    const getPopularMovies = async (): Promise<void> => {
+      setIsLoading(true)
 
-    }, [])
+      const filmsFromStore = filmStore.getFilms('POPULAR_FILMS')
+      if ((filmsFromStore != null) && filmsFromStore.length > 0) {
+        setPopularMovies(filmsFromStore)
+      } else {
+        const res = await api.getPopularMovie()
+        setPopularMovies(res?.data?.films)
+        console.log('render slider')
+        filmStore.setFilms(res?.data?.films, 'POPULAR_FILMS')
+      }
 
-
-    const fetch = (e: React.MouseEvent) => {
-        e.preventDefault();
-        console.log(popularMovies)
+      setIsLoading(false)
     }
+    getPopularMovies().catch(err => {
+      console.log(err)
+    })
+  }, [])
 
-    return (
-        <>
-            {/*<button onClick={e => fetch(e)}>data</button>*/}
-            <Swiper modules={[Navigation, Pagination]}
-                    navigation={true}
-                    // pagination={{clickable: true}}
-                    slidesPerView={1}>
-                {isLoading ? (
-                        <div>Loading ...</div>
-                    ) :
-                    (<>
-                        {popularMovies?.films.map((item: movie) => (
-                            <SwiperSlide key={item.filmId}>
-                                <SliderItem item={item}/>
-                            </SwiperSlide>
-                        ))}
-                    </>)}
-            </Swiper>
-        </>
-    )
-}
+  return (
+    <>
+      <Swiper modules={[Navigation]}
+              navigation={true}
+              slidesPerView={1}>
+        {isLoading
+          ? (
+            <div>Loading ...</div>
+            )
+          : (<>
+            {popularMovies?.map((item: movie) => (
+              <SwiperSlide key={item.filmId}>
+                <SliderItem item={item}/>
+              </SwiperSlide>
+            ))}
+          </>)}
+      </Swiper>
+    </>
+  )
+})
 
-export default Slider
+export default memo(Slider)

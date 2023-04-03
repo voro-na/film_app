@@ -1,63 +1,72 @@
-import React, {useEffect, useState} from "react";
-import api from "../../api/apiRequests";
-import {Swiper, SwiperSlide} from "swiper/react";
-import { Navigation} from "swiper";
-import "swiper/css";
-// для модулей навигации и пагинации
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import {movie, moviesList, filterMovie,filterMovieList} from "../../models/models";
+import React, { useEffect, useState } from 'react'
 
-import MovieCard from "../movie_card/movieCard";
-import {useWindowDimensions} from "../../functions/windowDimenstions";
+import { Navigation } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
+import api from '../../api/apiRequests'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import { useWindowDimensions } from '../../hooks/windowDimenstions'
+import { type movie, type filterMovie } from '../../models/models'
+import filmStore from '../../store/filmStore'
+import MovieCard from '../movie_card/movieCard'
 
 interface ChildComponentProps {
-    type: string;
+  type: string
 }
 
-const MoviesList = ({type}: ChildComponentProps) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [moviesList, setMoviesList] = useState<moviesList>();
+const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [moviesList, setMoviesList] = useState<movie[]>()
 
-    useEffect(() => {
-        const getMovies = async () => {
-            setIsLoading(true);
+  useEffect(() => {
+    const getMovies = async (): Promise<void> => {
+      setIsLoading(true)
 
-            const res = await api.getMovies(type);
-            setMoviesList(res?.data);
-            console.log(res)
-            setIsLoading(false);
-        }
-        getMovies();
+      const filmsFromStore = filmStore.getFilms(type)
+      if ((filmsFromStore != null) && filmsFromStore.length > 0) {
+        setMoviesList(filmsFromStore)
+      } else {
+        const res = await api.getMovies(type, 1)
+        setMoviesList(res?.data?.films ?? res?.data?.items)
+        console.log('renderMovieList')
+        filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
+      }
 
-    }, [])
+      setIsLoading(false)
+    }
+    getMovies().catch(err => { console.log(err) })
+  }, [])
 
-    useWindowDimensions();
-    let numberMovies;
-    if (window.innerWidth > 600)
-        numberMovies = (window.innerWidth - window.innerWidth % 300) / 300;
-    else
-        numberMovies = (window.innerWidth - window.innerWidth % 200) / 200;
+  useWindowDimensions()
+  let numberMovies
+  if (window.innerWidth > 600) {
+    numberMovies = (window.innerWidth - window.innerWidth % 300) / 300
+  } else {
+    numberMovies = (window.innerWidth - window.innerWidth % 180) / 180
+  }
 
-    return (<>
-        <Swiper modules={[Navigation]}
-                navigation={true}
-                slidesPerView={numberMovies}
-                grabCursor={true}
-                spaceBetween={10}>
+  return (<>
+    <Swiper modules={[Navigation]}
+            navigation={true}
+            slidesPerView={numberMovies}
+            grabCursor={true}
+            spaceBetween={10}>
 
-            {isLoading ? (
-                    <div>Loading ...</div>
-                ) :
-                (<>
-                    {moviesList?.films.map((item: movie) => (
-                        <SwiperSlide key={item.filmId}>
-                            <MovieCard item={item}/>
-                        </SwiperSlide>
-                    ))}
-                </>)}
-        </Swiper>
-    </>)
+      {isLoading
+        ? (
+          <div>Loading ...</div>
+          )
+        : (<>
+          {moviesList?.map((item: movie | filterMovie, index) => (
+            <SwiperSlide key={index}>
+              <MovieCard item={item}/>
+            </SwiperSlide>
+          ))}
+        </>)}
+    </Swiper>
+  </>)
 }
 
 export default MoviesList

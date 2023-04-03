@@ -1,0 +1,30 @@
+@use "../../styles/main" as *;
+
+.movie-card{
+  @include flex(column, center, none);
+  margin: 0 0.2em;
+  &__image{
+    @include img();
+    transition: 0.2s;
+  }
+  &__image:hover{
+    transform: scale(1.05);
+  }
+  &__title{
+    color: $text-color;
+    margin: 1.3rem 1rem;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.2s;
+  }
+  &__title:hover{
+    color: $hover-color;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .movie-card__image{
+    max-width:  150px;
+  }
+}

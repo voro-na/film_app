@@ -1,22 +1,21 @@
-import React from 'react';
-import {FetchData} from './api/apiConfig'
-import {BrowserRouter, Route} from "react-router-dom";
+import React from 'react'
 
-import MainRoutes from "./pages/Routes";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
+import { BrowserRouter } from 'react-router-dom'
+
+import Footer from './components/footer/footer'
+import Header from './components/header/header'
+import MainRoutes from './pages/Routes'
 import './styles/main.scss'
 
-
-function App() {
+function App (): JSX.Element {
   return (
     <BrowserRouter>
-            <Header/>
-            <MainRoutes/>
-            <Footer/>
+      <Header/>
+      <MainRoutes/>
+      <Footer/>
 
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
