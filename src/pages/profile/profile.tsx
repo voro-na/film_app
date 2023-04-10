@@ -21,6 +21,7 @@ const Profile = (): JSX.Element => {
   }
   const logOut = (): void => {
     authenticationStore.removeUser()
+    authenticationStore.removeFavoriteMovies()
     localStorage.clear()
     setAuth(prevState => !prevState)
   }

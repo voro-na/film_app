@@ -61,6 +61,10 @@ class AuthenticationStore {
     this.initialState.id = null
   }
 
+  removeFavoriteMovies (): void {
+    this.favoriteMovies = {}
+  }
+
   addFavoriteMovie (movieTitle: string, movieUrl: string): void {
     const movie = {
       movieTitle,
