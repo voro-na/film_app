@@ -11,6 +11,7 @@ import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
 
 // todo movies / tvserials button fix
+// todo load page from login page
 
 const Movies = (): JSX.Element => {
   const [, setIsLoading] = useState<boolean>(false)

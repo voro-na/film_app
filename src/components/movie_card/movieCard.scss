@@ -3,6 +3,7 @@
 .movie-card{
   @include flex(column, center, none);
   margin: 0 0.2em;
+  position: relative;
   &__image{
     @include img();
     transition: 0.2s;
@@ -20,6 +21,18 @@
   }
   &__title:hover{
     color: $hover-color;
+  }
+  i{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.3rem;
+    color: #667fbf;
+    transition: 0.3s;
+  }
+  i:hover{
+    font-size: 1.4rem;
+    color: white;
   }
 }
 

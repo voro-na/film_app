@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 import authenticationStore from '../../store/authenticationStore'
 import AuthenticationForm from '../authenticationForm/authenticationForm'
 
 const Login = (): JSX.Element => {
+  const [loginErr, setLoginErr] = useState('')
+  const navigate = useNavigate()
+
   const handleLogin = (email: string, password: string): void => {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
@@ -15,16 +19,16 @@ const Login = (): JSX.Element => {
           id: userCredential.user.uid,
           token: userCredential.user.refreshToken
         })
+        authenticationStore.getFavoriteMoviesFirebase()
+        navigate('/')
       })
-      .catch((error) => {
-        // const errorCode = error.code
-        // const errorMessage = error.message
-        console.log(error)
+      .catch(() => {
+        setLoginErr('Неправильный логин или пароль!')
       })
   }
 
   return (
-    <AuthenticationForm title="login" handleClick={handleLogin}/>
+    <AuthenticationForm title="Войти" handleClick={handleLogin} message={loginErr}/>
   )
 }
 

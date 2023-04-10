@@ -2,12 +2,13 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
+import './authenticationPages.scss'
 import Register from '../../components/loginRegister/register'
 
 const RegisterPage = (): JSX.Element => {
-  return <div>
+  return <div className={'authentication-container'}>
     <Register/>
-    <Link to={'/loginRegister'}>Login</Link>
+    <div>Уже зарегестрированы? <Link to={'/login'} className={'button'}>Войти</Link></div>
   </div>
 }
 

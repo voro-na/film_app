@@ -7,6 +7,7 @@ import Home from './home/Home'
 import LoginPage from './loginRegister/loginPage'
 import RegisterPage from './loginRegister/registerPage'
 import Movies from './movies/movies'
+import Profile from './profile/profile'
 
 const MainRoutes = (): JSX.Element => {
   return <Routes>
@@ -16,6 +17,7 @@ const MainRoutes = (): JSX.Element => {
     <Route path="/search" element={<ExtensionalSearch/>}/>
     <Route path="/login" element={<LoginPage/>}/>
     <Route path="/register" element={<RegisterPage/>}/>
+    <Route path="/profile" element={<Profile/>}/>
   </Routes>
 }
 

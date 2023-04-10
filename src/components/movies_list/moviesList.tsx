@@ -20,6 +20,12 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [moviesList, setMoviesList] = useState<movie[]>()
 
+  const fetchData = async (): Promise<void> => {
+    const res = await api.getMovies(type, 1)
+    setMoviesList(res?.data?.films ?? res?.data?.items)
+    filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
+  }
+
   useEffect(() => {
     const getMovies = async (): Promise<void> => {
       setIsLoading(true)
@@ -28,17 +34,20 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
       if ((filmsFromStore != null) && filmsFromStore.length > 0) {
         setMoviesList(filmsFromStore)
       } else {
-        const res = await api.getMovies(type, 1)
-        setMoviesList(res?.data?.films ?? res?.data?.items)
-        console.log('renderMovieList')
-        filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
+        try {
+          await fetchData()
+        } catch (e) {
+          await getMovies()
+        }
       }
-
       setIsLoading(false)
     }
-    getMovies().catch(err => { console.log(err) })
+    getMovies().catch(err => {
+      console.log(err)
+    })
   }, [])
 
+  // for the correct operation of the slider
   useWindowDimensions()
   let numberMovies
   if (window.innerWidth > 600) {
@@ -55,9 +64,7 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
             spaceBetween={10}>
 
       {isLoading
-        ? (
-          <div>Loading ...</div>
-          )
+        ? (<div>Loading ...</div>)
         : (<>
           {moviesList?.map((item: movie | filterMovie, index) => (
             <SwiperSlide key={index}>

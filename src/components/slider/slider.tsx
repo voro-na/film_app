@@ -15,6 +15,12 @@ const Slider = observer(() => {
   const [popularMovies, setPopularMovies] = useState<movie[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  const fetchData = async (): Promise<void> => {
+    const res = await api.getPopularMovie()
+    setPopularMovies(res?.data?.films)
+    filmStore.setFilms(res?.data?.films, 'POPULAR_FILMS')
+  }
+
   useEffect(() => {
     const getPopularMovies = async (): Promise<void> => {
       setIsLoading(true)
@@ -23,10 +29,11 @@ const Slider = observer(() => {
       if ((filmsFromStore != null) && filmsFromStore.length > 0) {
         setPopularMovies(filmsFromStore)
       } else {
-        const res = await api.getPopularMovie()
-        setPopularMovies(res?.data?.films)
-        console.log('render slider')
-        filmStore.setFilms(res?.data?.films, 'POPULAR_FILMS')
+        try {
+          await fetchData()
+        } catch (e) {
+          await getPopularMovies()
+        }
       }
 
       setIsLoading(false)
@@ -43,8 +50,7 @@ const Slider = observer(() => {
               slidesPerView={1}>
         {isLoading
           ? (
-            <div>Loading ...</div>
-            )
+            <div>Loading ...</div>)
           : (<>
             {popularMovies?.map((item: movie) => (
               <SwiperSlide key={item.filmId}>

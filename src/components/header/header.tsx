@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import './header.scss'
+import useAuth from '../../hooks/useAuth'
 import Input from '../input/input'
 
 const navigation = [
@@ -20,6 +21,9 @@ const navigation = [
 const Header: React.FC = () => {
   const [input, setInput] = useState<string>('')
   const navigate = useNavigate()
+  const {
+    isAuth
+  } = useAuth()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent): void => {
     e.preventDefault()
@@ -41,7 +45,7 @@ const Header: React.FC = () => {
           ))
         }
         <Input handleSubmit={handleSubmit} input={input} setInput={setInput}/>
-        <Link to={'/login'}>Login/register</Link>
+        <Link className={'header__item'} to={'/profile'}>{isAuth ? 'ПРОФИЛЬ' : 'ВХОД'}</Link>
       </ul>
     </div>
   )
