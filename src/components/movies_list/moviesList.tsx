@@ -42,9 +42,7 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
       }
       setIsLoading(false)
     }
-    getMovies().catch(err => {
-      console.log(err)
-    })
+    getMovies().catch(err => err)
   }, [])
 
   // for the correct operation of the slider

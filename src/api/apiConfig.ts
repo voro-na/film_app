@@ -6,7 +6,7 @@ const apiConfig = {
   apiKey: '8ecf30a1-174b-4665-8ef2-1c1ab75dcb24'
 }
 
-// todo any
+// todo fix any
 
 export const FetchData = async (type: string): Promise<any> => {
   const link = `${apiConfig.baseUrl}${type}`
@@ -17,7 +17,7 @@ export const FetchData = async (type: string): Promise<any> => {
       'Content-Type': 'application/json'
     }
   })
-    .catch(err => { console.log(err) })
+    .catch(err => err)
 }
 
 export default FetchData

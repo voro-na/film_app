@@ -19,6 +19,7 @@ const Login = (): JSX.Element => {
           id: userCredential.user.uid,
           token: userCredential.user.refreshToken
         })
+        localStorage.setItem('logged', JSON.stringify(authenticationStore.initialState))
         authenticationStore.getFavoriteMoviesFirebase()
         navigate('/')
       })

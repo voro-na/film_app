@@ -11,16 +11,19 @@
   gap: 1rem;
 
   &_input-container{
+    display: flex;
+    flex-direction: row;
     padding: 10px;
     border-radius: 20px;
     border: 2px solid #667fbf;
     background-color: transparent;
+    grid-area: input;
 
   }
   &_input{
     color: #747179;
     background-color: transparent;
-    max-width: 300px;
+    max-width: 200px;
     width: calc(100vw - 100px);
     border: none;
   }

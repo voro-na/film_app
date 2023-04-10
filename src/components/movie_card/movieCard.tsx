@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './movieCard.scss'
+
 import { type filterMovie, type movie } from '../../models/models'
 import authenticationStore from '../../store/authenticationStore'
 

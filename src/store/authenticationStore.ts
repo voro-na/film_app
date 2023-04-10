@@ -25,12 +25,21 @@ const initial: user = {
 class AuthenticationStore {
   name = 'user'
   initialState = initial
-  // favoriteMovies: movieCard[] = []
   favoriteMovieCount = 0
   favoriteMovies: obj = {}
 
   constructor () {
     makeAutoObservable(this)
+  }
+
+  setUserFromLocalStore (): void {
+    const jsonStr = localStorage.getItem('logged')
+    if (jsonStr != null) {
+      const loggedUser = JSON.parse(jsonStr)
+      this.initialState.email = loggedUser.email
+      this.initialState.id = loggedUser.id
+      this.initialState.token = loggedUser.token
+    }
   }
 
   setUser (action: user): void {
@@ -71,13 +80,16 @@ class AuthenticationStore {
   }
 
   getFavoriteMoviesFirebase (): void {
-    const favoriteMoviesRef = ref(db, 'users/' + String(this.initialState.id))
+    const favoriteMoviesRef = ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies')
     onValue(favoriteMoviesRef, (snapshot) => {
       const data = snapshot.val()
-      this.favoriteMovies = data
-      this.favoriteMovieCount = data.length()
-    }
-    )
+      this.favoriteMovieCount = Object.keys(data).length
+
+      for (let i = 0; i < this.favoriteMovieCount; i++) {
+        const item = data['m' + String(i)]
+        this.favoriteMovies[item.movieTitle] = item
+      }
+    })
   }
 }
 

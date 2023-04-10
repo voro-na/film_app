@@ -3,7 +3,9 @@
 
 .header{
   @include flex(row, center, space-between);
+
   padding: 1rem 2rem;
+
 
   &__content{
     display: flex;
@@ -22,15 +24,26 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    grid-area: list;
   }
 }
+.logo{
+  grid-area: logo;
+  flex-grow: 1;
 
-@media only screen and (max-width: 600px){
+}
+
+@media only screen and (max-width: 43rem){
   .header__content{
     font-size: 0.8rem;
   }
   .header__list{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+  }
+  .header{
+    display: grid;
+    grid-template-areas: "logo input"
+  ". list";
   }
 }

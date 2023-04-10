@@ -38,9 +38,7 @@ const Slider = observer(() => {
 
       setIsLoading(false)
     }
-    getPopularMovies().catch(err => {
-      console.log(err)
-    })
+    getPopularMovies().catch(err => err)
   }, [])
 
   return (

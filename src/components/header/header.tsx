@@ -35,7 +35,8 @@ const Header: React.FC = () => {
   }
   return (
     <div className={'header'}>
-      <Link to={'/'}>LOGO</Link>
+      <Link to={'/'} className={'logo'}>LOGO</Link>
+      <Input handleSubmit={handleSubmit} input={input} setInput={setInput}/>
       <ul className={'header__list'}>
         {
           navigation.map((temp, index) => (
@@ -44,8 +45,7 @@ const Header: React.FC = () => {
             </li>
           ))
         }
-        <Input handleSubmit={handleSubmit} input={input} setInput={setInput}/>
-        <Link className={'header__item'} to={'/profile'}>{isAuth ? 'ПРОФИЛЬ' : 'ВХОД'}</Link>
+        <Link className={'header__item header__content'} to={'/profile'}>{isAuth ? 'ПРОФИЛЬ' : 'ВХОД'}</Link>
       </ul>
     </div>
   )

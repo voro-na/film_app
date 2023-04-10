@@ -10,7 +10,6 @@ import MovieCard from '../../components/movie_card/movieCard'
 import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
 
-// todo movies / tvserials button fix
 // todo load page from login page
 
 const Movies = (): JSX.Element => {
@@ -26,7 +25,6 @@ const Movies = (): JSX.Element => {
     return arr.filter((item: { rating: string }) => item.rating !== 'null')
   }
   useEffect(() => {
-    console.log('rerender movies')
     const getMovies = async (): Promise<void> => {
       setIsLoading(true)
       const filmsFromStore = filmStore.getFilms(type)
@@ -49,13 +47,9 @@ const Movies = (): JSX.Element => {
       setIsLoading(false)
     }
     if (type === 'EXTENSIONAL_SEARCH') {
-      getMoviesByLink().catch(err => {
-        console.log(err)
-      })
+      getMoviesByLink().catch(err => err)
     } else {
-      getMovies().catch(err => {
-        console.log(err)
-      })
+      getMovies().catch(err => err)
     }
   }, [state])
 
@@ -66,7 +60,7 @@ const Movies = (): JSX.Element => {
     } else {
       res = await api.getMovies(state, page + 1)
     }
-    // const res = await api.getMovies(state, page + 1)
+
     const newRes = res?.data?.films ?? res?.data?.items
     setMoviesList([...moviesList, ...newRes])
     setPage(page + 1)

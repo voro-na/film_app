@@ -30,9 +30,7 @@ const ExtensionalSearch = (): JSX.Element => {
       setCountries(res?.data?.countries)
       setGenre(res?.data?.genres)
     }
-    getMovieId().catch(err => {
-      console.log(err)
-    })
+    getMovieId().catch(err => err)
   }, [])
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()

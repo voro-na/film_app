@@ -7,6 +7,7 @@
 }
 .movies-page_title{
   @include flex(row, center, center);
+  font-size: 1.5rem;
   color: $hover-color;
 }
 

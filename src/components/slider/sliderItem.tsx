@@ -3,7 +3,7 @@ import React from 'react'
 import './sliderItem.scss'
 import { type movie } from '../../models/models'
 import Button from '../button/button'
-// todo reverstka
+
 const SliderItem = (props: { item: movie }): JSX.Element => {
   const movie: movie = props.item
 
