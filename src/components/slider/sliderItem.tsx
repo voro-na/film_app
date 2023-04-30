@@ -3,7 +3,7 @@ import React from 'react'
 import './sliderItem.scss'
 import { type movie } from '../../models/models'
 import Button from '../button/button'
-
+// todo obj in props
 const SliderItem = (props: { item: movie }): JSX.Element => {
   const movie: movie = props.item
 
@@ -43,7 +43,7 @@ const SliderItem = (props: { item: movie }): JSX.Element => {
         <tfoot>
         <tr>
           <td>
-            <Button text={'Подробнее о фильме'} link={'/'} type={''}/>
+            <Button text={'Подробнее о фильме'} link={`/film/${movie.filmId}`} type={String(movie.filmId)}/>
           </td>
         </tr>
         </tfoot>

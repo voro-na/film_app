@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -19,24 +19,12 @@ const navigation = [
 ]
 
 const Header: React.FC = () => {
-  const [input, setInput] = useState<string>('')
-  const navigate = useNavigate()
-  const {
-    isAuth
-  } = useAuth()
+  const { isAuth } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent): void => {
-    e.preventDefault()
-    const link = `v2.2/films?order=NUM_VOTE&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&keyword=${input}&page=1`
-    if (input !== '') {
-      navigate('/movies', { state: { link } })
-      setInput('')
-    }
-  }
   return (
     <div className={'header'}>
       <Link to={'/'} className={'logo'}>LOGO</Link>
-      <Input handleSubmit={handleSubmit} input={input} setInput={setInput}/>
+      <Input/>
       <ul className={'header__list'}>
         {
           navigation.map((temp, index) => (
@@ -51,4 +39,4 @@ const Header: React.FC = () => {
   )
 }
 
-export default Header
+export default React.memo(Header)

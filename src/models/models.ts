@@ -39,11 +39,28 @@ export interface genre {
   id: number
   genre: string
 }
-export interface formData {
-  name: string
+export interface detailedFilmInfo {
+  kinopoiskId: number
+  nameRu: string
+  nameEn: string
+  posterUrl: string
+  coverUrl: string
+  reviewsCount: number
+  ratingGoodReview: number
+  ratingKinopoisk: number
+  ratingKinopoiskVoteCount: number
+  ratingImdb: number
+
   year: number
-  genre: string
-  country: string
-  type: string
+  filmLength: number
+  slogan: string
+  description: string
+  shortDescription: string
+
+  ratingMpaa: string
+  ratingAgeLimits: string
+  countries: Array<{ country: string }>
+  genres: Array<{ genre: string }>
+
 }
 export type movies = movie[] | filterMovie[]

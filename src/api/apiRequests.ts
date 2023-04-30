@@ -19,8 +19,8 @@ const api = {
   getMovieId: async () => {
     return await FetchData('v2.2/films/filters')
   },
-  getDetailedInfo: async (id: number) => {
-    return await FetchData(String(id))
+  getFilmInfo: async (id: number) => {
+    return await FetchData(`v2.2/films/${id}`)
   },
   getMovieByFilters: async (link: string, page: number) => {
     return await FetchData(`${link}&page=${page}`)

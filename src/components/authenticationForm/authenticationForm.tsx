@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import './authenticationForm.scss'
 
 interface AuthenticationFormProps {
@@ -33,11 +33,15 @@ const AuthenticationForm = ({
            onChange={(e) => {
              setPassword(e.target.value)
            }}/>
-    <button onClick={() => {
-      handleClick(email, password)
-    }} className={'button'}>{title}</button>
+    <button
+      onClick={useCallback(() => {
+        handleClick(email, password)
+      }, [email, password])}
+      className={'button'}>
+      {title}
+    </button>
 
   </div>
 }
 
-export default AuthenticationForm
+export default React.memo(AuthenticationForm)

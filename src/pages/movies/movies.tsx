@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
@@ -16,7 +16,6 @@ const Movies = (): JSX.Element => {
   const [, setIsLoading] = useState<boolean>(false)
   const [moviesList, setMoviesList] = useState<movies>([])
   const [page, setPage] = useState<number>(1)
-  const [input, setInput] = useState<string>('')
 
   const { state } = useLocation()
 
@@ -53,7 +52,7 @@ const Movies = (): JSX.Element => {
     }
   }, [state])
 
-  const loadMore = async (): Promise<void> => {
+  const loadMore = useCallback(async (): Promise<void> => {
     let res
     if (type === 'EXTENSIONAL_SEARCH') {
       res = await api.getMovieByFilters(state.link, page + 1)
@@ -64,24 +63,11 @@ const Movies = (): JSX.Element => {
     const newRes = res?.data?.films ?? res?.data?.items
     setMoviesList([...moviesList, ...newRes])
     setPage(page + 1)
-  }
-  const searchKeyWords = async (keyWord: string): Promise<void> => {
-    const res = await api.getMovieByKeyword(keyWord)
-    const newRes = res?.data?.films ?? res?.data?.items
-    setMoviesList(deleteNoPosterMovies(newRes))
-  }
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent): void => {
-    e.preventDefault()
-    if (input !== '') {
-      void searchKeyWords(input)
-      setInput('')
-    }
-  }
+  }, [moviesList])
 
   return (<>
     <h1 className={'movies-page_title'}>ФИЛЬМЫ</h1>
-    <Input handleSubmit={handleSubmit} input={input} setInput={setInput}/>
-
+    <Input/>
     <div className={'movies-page'}>
       {moviesList?.map((item, index) => (
         <MovieCard item={item} key={index}/>

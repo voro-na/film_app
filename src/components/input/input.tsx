@@ -1,32 +1,42 @@
-import React, { type Dispatch, type SetStateAction } from 'react'
+import React, { useCallback, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './input.scss'
 
-interface props {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement> | React.MouseEvent) => void
-  input: string
-  setInput: Dispatch<SetStateAction<string>>
-}
+const Input = (): JSX.Element => {
+  const [input, setInput] = useState<string>('')
+  const navigate = useNavigate()
 
-const Input = ({
-  handleSubmit,
-  input,
-  setInput
-}: props): JSX.Element => {
-  return (<form className={'form'} onSubmit={e => {
-    handleSubmit(e)
-  }}>
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement> | React.MouseEvent): void => {
+    e.preventDefault()
+    const link = `v2.2/films?order=NUM_VOTE&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&keyword=${input}&page=1`
+    if (input !== '') {
+      navigate('/movies', { state: { link } })
+      setInput('')
+    }
+  }, [input])
+
+  return <form className={'form'} onSubmit={
+    useCallback((e: React.FormEvent<HTMLFormElement> | React.MouseEvent<Element, MouseEvent>) => {
+      handleSubmit(e)
+    }, [])}>
     <div className="form_input-container">
-      <input type="text" value={input} className="form_input" placeholder="Введите название фильма" onChange={e => {
-        setInput(e.target.value)
-      }}/>
-      <Link to={'/search'}><i className="fa-solid fa-bars icons"></i></Link>
-      <i className="fa-solid fa-magnifying-glass icons" onClick={e => {
-        handleSubmit(e)
-      }}></i>
+      <input type="text"
+             value={input}
+             className="form_input"
+             placeholder="Введите название фильма"
+             onChange={useCallback((e: { target: { value: React.SetStateAction<string> } }) => {
+               setInput(e.target.value)
+             }, [])}/>
+      <Link to={'/search'}>
+        <i className="fa-solid fa-bars icons"></i>
+      </Link>
+      <i className="fa-solid fa-magnifying-glass icons"
+         onClick={useCallback((e: React.FormEvent<HTMLFormElement> | React.MouseEvent<Element, MouseEvent>) => {
+           handleSubmit(e)
+         }, [])}></i>
     </div>
-  </form>)
+  </form>
 }
 
-export default Input
+export default React.memo(Input)

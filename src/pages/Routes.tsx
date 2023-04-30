@@ -3,6 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import ExtensionalSearch from './extentionalSearch/extensionalSearch'
+import FilmPage from './film/filmPage'
 import Home from './home/Home'
 import LoginPage from './loginRegister/loginPage'
 import RegisterPage from './loginRegister/registerPage'
@@ -18,6 +19,7 @@ const MainRoutes = (): JSX.Element => {
     <Route path="/login" element={<LoginPage/>}/>
     <Route path="/register" element={<RegisterPage/>}/>
     <Route path="/profile" element={<Profile/>}/>
+    <Route path="/film/:id" element={<FilmPage/>}/>
   </Routes>
 }
 
