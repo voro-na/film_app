@@ -6,10 +6,10 @@ import './movies.scss'
 import api from '../../api/apiRequests'
 import { ButtonLoad } from '../../components/button/button'
 import Input from '../../components/input/input'
+import Loader from '../../components/loader/loader'
 import MovieCard from '../../components/movie_card/movieCard'
 import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
-
 // todo load page from login page
 
 const Movies = (): JSX.Element => {
@@ -39,16 +39,25 @@ const Movies = (): JSX.Element => {
       setIsLoading(false)
     }
     const getMoviesByLink = async (): Promise<void> => {
-      setIsLoading(true)
       setPage(1)
       const res = await api.getMovieByFilters(state.link, page)
       setMoviesList(res?.data?.items)
-      setIsLoading(false)
     }
+    setIsLoading(true)
     if (type === 'EXTENSIONAL_SEARCH') {
-      getMoviesByLink().catch(err => err)
+      // getMoviesByLink().catch(err => err)
+      try {
+        void getMoviesByLink()
+      } finally {
+        setIsLoading(false)
+      }
     } else {
-      getMovies().catch(err => err)
+      try {
+        void getMovies()
+      } finally {
+        setIsLoading(false)
+      }
+      // getMovies().catch(err => err)
     }
   }, [state])
 
@@ -68,12 +77,18 @@ const Movies = (): JSX.Element => {
   return (<>
     <h1 className={'movies-page_title'}>ФИЛЬМЫ</h1>
     <Input/>
-    <div className={'movies-page'}>
-      {moviesList?.map((item, index) => (
-        <MovieCard item={item} key={index}/>
-      ))}
-    </div>
-    {moviesList.length >= 20 ? <ButtonLoad text={'Показать больше'} onClick={loadMore}/> : <></>}
+    {moviesList.length !== 0
+      ? <>
+        <div className={'movies-page'}>
+          {moviesList?.map((item, index) => (
+            <MovieCard item={item} key={index}/>
+          ))}
+        </div>
+        {moviesList.length >= 20 ? <ButtonLoad text={'Показать больше'} onClick={loadMore}/> : <></>}
+      </>
+      : <Loader/>
+    }
+
   </>)
 }
 

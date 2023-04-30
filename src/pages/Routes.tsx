@@ -3,12 +3,12 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import ExtensionalSearch from './extentionalSearch/extensionalSearch'
-import FilmPage from './film/filmPage'
 import Home from './home/Home'
 import LoginPage from './loginRegister/loginPage'
 import RegisterPage from './loginRegister/registerPage'
 import Movies from './movies/movies'
 import Profile from './profile/profile'
+import FilmPage from './singleFilm/filmPage'
 
 const MainRoutes = (): JSX.Element => {
   return <Routes>

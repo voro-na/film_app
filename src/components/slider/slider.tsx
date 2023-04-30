@@ -10,6 +10,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import { type movie } from '../../models/models'
 import filmStore from '../../store/filmStore'
+import Loader from '../loader/loader'
 
 const Slider = observer(() => {
   const [popularMovies, setPopularMovies] = useState<movie[]>()
@@ -22,23 +23,19 @@ const Slider = observer(() => {
   }
 
   useEffect(() => {
-    const getPopularMovies = async (): Promise<void> => {
-      setIsLoading(true)
+    setIsLoading(true)
 
-      const filmsFromStore = filmStore.getFilms('POPULAR_FILMS')
-      if ((filmsFromStore != null) && filmsFromStore.length > 0) {
-        setPopularMovies(filmsFromStore)
-      } else {
-        try {
-          await fetchData()
-        } catch (e) {
-          await getPopularMovies()
-        }
-      }
-
+    const filmsFromStore = filmStore.getFilms('POPULAR_FILMS')
+    if ((filmsFromStore != null) && filmsFromStore.length > 0) {
+      setPopularMovies(filmsFromStore)
       setIsLoading(false)
+    } else {
+      try {
+        void fetchData()
+      } finally {
+        setIsLoading(false)
+      }
     }
-    getPopularMovies().catch(err => err)
   }, [])
 
   return (
@@ -47,8 +44,7 @@ const Slider = observer(() => {
               navigation={true}
               slidesPerView={1}>
         {isLoading
-          ? (
-            <div>Loading ...</div>)
+          ? <Loader/>
           : (<>
             {popularMovies?.map((item: movie) => (
               <SwiperSlide key={item.filmId}>

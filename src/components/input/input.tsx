@@ -19,22 +19,22 @@ const Input = (): JSX.Element => {
   return <form className={'form'} onSubmit={
     useCallback((e: React.FormEvent<HTMLFormElement> | React.MouseEvent<Element, MouseEvent>) => {
       handleSubmit(e)
-    }, [])}>
+    }, [input])}>
     <div className="form_input-container">
       <input type="text"
              value={input}
              className="form_input"
              placeholder="Введите название фильма"
-             onChange={useCallback((e: { target: { value: React.SetStateAction<string> } }) => {
+             onChange={e => {
                setInput(e.target.value)
-             }, [])}/>
+             }}/>
       <Link to={'/search'}>
         <i className="fa-solid fa-bars icons"></i>
       </Link>
       <i className="fa-solid fa-magnifying-glass icons"
          onClick={useCallback((e: React.FormEvent<HTMLFormElement> | React.MouseEvent<Element, MouseEvent>) => {
            handleSubmit(e)
-         }, [])}></i>
+         }, [input])}></i>
     </div>
   </form>
 }

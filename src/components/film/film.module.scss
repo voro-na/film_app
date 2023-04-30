@@ -1,0 +1,57 @@
+@use "../../styles/main" as *;
+
+.container{
+  display: grid;
+  grid-template-columns: 1fr fit-content(50%);
+  margin: 1em auto;
+  max-width: 60rem;
+  padding: 2%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 2rem;
+  background-size: cover;
+
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.description_container{
+  margin: 1rem;
+}
+.poster {
+  @include img();
+  margin: 0.5em auto;
+  max-width: 30rem;
+  width: 100%;
+}
+.mainInfo{
+  display: flex;
+  flex-direction: row;
+  font-size: 2.5em;
+  justify-content: space-between;
+  align-items: center;
+  i{
+    color: #667fbf;
+    transition: 0.3s;
+  }
+  i:hover{
+    font-size: 2.7rem;
+    color: white;
+  }
+
+}
+.title{
+  color: white;
+}
+.shortInfo{
+  margin: 0.5rem 0;
+  display: flex;
+  font-weight: bold;
+  gap: 3rem;
+  &_rating{
+    color: white;
+    background-color: $hover-color;
+    border-radius: 1rem;
+    padding: 0.2em 0.7em;
+  }
+}

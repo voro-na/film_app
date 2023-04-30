@@ -10,6 +10,7 @@ import 'swiper/css/pagination'
 import { useWindowDimensions } from '../../hooks/windowDimenstions'
 import { type movie, type filterMovie } from '../../models/models'
 import filmStore from '../../store/filmStore'
+import Loader from '../loader/loader'
 import MovieCard from '../movie_card/movieCard'
 
 interface ChildComponentProps {
@@ -33,14 +34,14 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
       const filmsFromStore = filmStore.getFilms(type)
       if ((filmsFromStore != null) && filmsFromStore.length > 0) {
         setMoviesList(filmsFromStore)
+        setIsLoading(false)
       } else {
         try {
           await fetchData()
-        } catch (e) {
-          await getMovies()
+        } finally {
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
     getMovies().catch(err => err)
   }, [])
@@ -62,7 +63,7 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
             spaceBetween={10}>
 
       {isLoading
-        ? (<div>Loading ...</div>)
+        ? <Loader/>
         : (<>
           {moviesList?.map((item: movie | filterMovie, index) => (
             <SwiperSlide key={index}>

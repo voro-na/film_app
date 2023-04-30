@@ -47,10 +47,10 @@ export interface detailedFilmInfo {
   coverUrl: string
   reviewsCount: number
   ratingGoodReview: number
-  ratingKinopoisk: number
+  ratingKinopoisk: number | null
   ratingKinopoiskVoteCount: number
   ratingImdb: number
-
+  ratingAwait?: number
   year: number
   filmLength: number
   slogan: string
