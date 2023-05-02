@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Navigate } from 'react-router-dom'
 
@@ -7,14 +7,16 @@ import useAuth from '../../hooks/useAuth'
 import authenticationStore from '../../store/authenticationStore'
 
 const Profile = (): JSX.Element => {
-  authenticationStore.setUserFromLocalStore()
+  useEffect(() => {
+    authenticationStore.setUserFromLocalStore()
+  }, [])
+
   const {
     isAuth,
     email
   } = useAuth()
 
   const [auth, setAuth] = useState(isAuth)
-  const [favoriteMovies] = useState(authenticationStore.favoriteMovies)
 
   if (authenticationStore.favoriteMovies !== null && isAuth) {
     authenticationStore.getFavoriteMoviesFirebase()
@@ -27,10 +29,10 @@ const Profile = (): JSX.Element => {
   }
   return auth
     ? (<div>
-        <h1 className={'movies-page_title'}>Welcome {email}</h1>
-        <FavoriteMovies favoriteMovies={favoriteMovies}/>
-        <button onClick={logOut} className={'button'}>Выйти из профиля</button>
-      </div>)
+      <h1 className={'movies-page_title'}>Welcome {email}</h1>
+      <FavoriteMovies/>
+      <button onClick={logOut} className={'button'}>Выйти из профиля</button>
+    </div>)
     : (
       <Navigate to="/login"/>)
 }

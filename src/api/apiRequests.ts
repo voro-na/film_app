@@ -24,6 +24,12 @@ const api = {
   },
   getMovieByFilters: async (link: string, page: number) => {
     return await FetchData(`${link}&page=${page}`)
+  },
+  getTrailer: async (id: number) => {
+    return await FetchData(`v2.2/films/${id}/videos`)
+  },
+  getActors: async (id: number) => {
+    return await FetchData(`v1/staff?filmId=${id}`)
   }
 
 }

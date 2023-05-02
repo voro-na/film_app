@@ -12,6 +12,7 @@ interface user {
 interface movieCard {
   movieTitle: string
   movieUrl: string
+  id: number
 }
 
 type obj = Record<string, movieCard>
@@ -65,10 +66,11 @@ class AuthenticationStore {
     this.favoriteMovies = {}
   }
 
-  addFavoriteMovie (movieTitle: string, movieUrl: string): void {
+  addFavoriteMovie (movieTitle: string, movieUrl: string, id: number): void {
     const movie = {
       movieTitle,
-      movieUrl
+      movieUrl,
+      id
     }
     if (this.favoriteMovies[movieTitle] === undefined) {
       this.favoriteMovies[movieTitle] = (movie)

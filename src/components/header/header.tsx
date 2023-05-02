@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
+import { Link } from 'react-router-dom'
 
 import './header.scss'
-import useAuth from '../../hooks/useAuth'
+import authenticationStore from '../../store/authenticationStore'
 import Input from '../input/input'
 
 const navigation = [
@@ -18,8 +19,13 @@ const navigation = [
   }
 ]
 
-const Header: React.FC = () => {
-  const { isAuth } = useAuth()
+const Header: React.FC = observer(() => {
+  const auth = authenticationStore.initialState.email
+  const [isAuth, setAuth] = useState(auth)
+
+  useEffect(() => {
+    setAuth(auth)
+  }, [auth])
 
   return (
     <div className={'header'}>
@@ -33,10 +39,10 @@ const Header: React.FC = () => {
             </li>
           ))
         }
-        <Link className={'header__item header__content'} to={'/profile'}>{isAuth ? 'ПРОФИЛЬ' : 'ВХОД'}</Link>
+        <Link className={'header__item header__content'} to={'/profile'}>{(isAuth != null) ? 'ПРОФИЛЬ' : 'ВХОД'}</Link>
       </ul>
     </div>
   )
-}
+})
 
-export default React.memo(Header)
+export default Header

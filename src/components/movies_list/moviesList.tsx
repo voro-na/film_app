@@ -4,7 +4,6 @@ import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
-import api from '../../api/apiRequests'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { useWindowDimensions } from '../../hooks/windowDimenstions'
@@ -22,9 +21,8 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
   const [moviesList, setMoviesList] = useState<movie[]>()
 
   const fetchData = async (): Promise<void> => {
-    const res = await api.getMovies(type, 1)
-    setMoviesList(res?.data?.films ?? res?.data?.items)
-    filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
+    await filmStore.fetchFilms(type, 1)
+    setMoviesList(filmStore.getFilms(type))
   }
 
   useEffect(() => {
@@ -67,7 +65,9 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
         : (<>
           {moviesList?.map((item: movie | filterMovie, index) => (
             <SwiperSlide key={index}>
-              <MovieCard item={item}/>
+              <MovieCard nameRu={item.nameRu}
+                         id={'filmId' in item ? item.filmId : item.kinopoiskId}
+                         posterUrlPreview={item.posterUrlPreview}/>
             </SwiperSlide>
           ))}
         </>)}

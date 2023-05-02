@@ -5,7 +5,6 @@ import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import SliderItem from './sliderItem'
-import api from '../../api/apiRequests'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { type movie } from '../../models/models'
@@ -17,9 +16,8 @@ const Slider = observer(() => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetchData = async (): Promise<void> => {
-    const res = await api.getPopularMovie()
-    setPopularMovies(res?.data?.films)
-    filmStore.setFilms(res?.data?.films, 'POPULAR_FILMS')
+    await filmStore.fetchPopularMovies()
+    setPopularMovies(filmStore.getFilms('POPULAR_FILMS'))
   }
 
   useEffect(() => {
@@ -42,7 +40,8 @@ const Slider = observer(() => {
     <>
       <Swiper modules={[Navigation]}
               navigation={true}
-              slidesPerView={1}>
+              slidesPerView={1}
+              style={{ maxHeight: '800px' }}>
         {isLoading
           ? <Loader/>
           : (<>

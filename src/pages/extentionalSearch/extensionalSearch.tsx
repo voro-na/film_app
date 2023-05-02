@@ -59,7 +59,7 @@ const ExtensionalSearch = (): JSX.Element => {
       data.yearFrom !== '—' ? data.yearFrom : 1000}&yearTo=${
       data.yearTo !== '—' ? data.yearTo : 3000}${
       ((data?.name) !== '') ? `&keyword=${data.name}` : ''}`
-    console.log(link)
+
     navigate('/movies', { state: { link } })
   }
 

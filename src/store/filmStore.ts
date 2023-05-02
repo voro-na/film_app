@@ -1,5 +1,21 @@
 import { makeAutoObservable } from 'mobx'
 
+import api from '../api/apiRequests'
+
+interface actors {
+  staffId: number
+  nameRu: string
+  nameEn: string
+  description: string | null
+  posterUrl: string
+  professionText: string
+  professionKey: string
+}
+
+interface filmType {
+  actors: actors[]
+}
+
 class FilmStore {
   films = {
     popularFilms: [],
@@ -8,8 +24,32 @@ class FilmStore {
     awaitFilms: []
   }
 
+  filmDetailes: filmType = {
+    actors: []
+  }
+
   constructor () {
     makeAutoObservable(this)
+  }
+
+  async fetchFilms (type: string, page = 1): Promise<void> {
+    const res = await api.getMovies(type, page)
+    this.setFilms(res?.data?.films ?? res?.data?.items, type)
+  }
+
+  async fetchPopularMovies (): Promise<void> {
+    const res = await api.getPopularMovie()
+    this.setFilms(res?.data?.films, 'POPULAR_FILMS')
+  }
+
+  async fetchTrailer (id: number): Promise<string> {
+    const res = await api.getTrailer(id)
+    return res?.data?.items[0]?.url
+  }
+
+  async fetchActors (id: number): Promise<void> {
+    const res = await api.getActors(id)
+    this.filmDetailes.actors = res?.data
   }
 
   // todo fix any
@@ -45,6 +85,28 @@ class FilmStore {
       default:
         break
     }
+  }
+
+  getDirectors (): string[] {
+    return this.filmDetailes.actors.reduce((prev: any[], cur) => {
+      if (cur.professionKey === 'DIRECTOR') {
+        prev.push(cur.nameRu)
+      }
+      return prev
+    }, [])
+  }
+
+  getActors (): string[] {
+    return this.filmDetailes.actors.reduce((prev: any[], cur, index) => {
+      if (cur.professionKey === 'ACTOR' && index <= 5) {
+        prev.push(cur.nameRu)
+      }
+      return prev
+    }, [])
+  }
+
+  getPersons (): actors[] {
+    return this.filmDetailes.actors
   }
 }
 

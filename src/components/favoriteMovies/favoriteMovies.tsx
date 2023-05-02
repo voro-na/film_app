@@ -1,24 +1,17 @@
-import React from 'react'
+import React, { useState, type FC } from 'react'
 
 import { observer } from 'mobx-react-lite'
 
-interface movieCard {
-  movieTitle: string
-  movieUrl: string
-}
+import authenticationStore from '../../store/authenticationStore'
+import MovieCard from '../movie_card/movieCard'
 
-type obj = Record<string, movieCard>
-
-const FavoriteMovies = observer(({ favoriteMovies }: { favoriteMovies: obj }): JSX.Element => {
+const FavoriteMovies: FC = observer(() => {
+  const [favoriteMovies] = useState(authenticationStore.favoriteMovies)
   return <>
     <h1 className={'movies-page_title'}>Избранное</h1>
     <div className={'movies-page'}>
       {Object.values(favoriteMovies).map((item, index) => (
-
-        <div className={'movie-card'} key={index}>
-          <img className={'movie-card__image'} src={item.movieUrl} alt="poster"/>
-          <div className={'movie-card__title'}>{item.movieTitle}</div>
-        </div>
+        <MovieCard nameRu={item.movieTitle} posterUrlPreview={item.movieUrl} id={item.id} key={index}/>
       ))}
     </div>
   </>

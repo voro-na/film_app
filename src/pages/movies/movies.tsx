@@ -10,6 +10,7 @@ import Loader from '../../components/loader/loader'
 import MovieCard from '../../components/movie_card/movieCard'
 import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
+
 // todo load page from login page
 
 const Movies = (): JSX.Element => {
@@ -20,9 +21,11 @@ const Movies = (): JSX.Element => {
   const { state } = useLocation()
 
   const type = typeof state === 'string' ? state : 'EXTENSIONAL_SEARCH'
+
   const deleteNoPosterMovies = (arr: any[]): movies => {
     return arr.filter((item: { rating: string }) => item.rating !== 'null')
   }
+
   useEffect(() => {
     const getMovies = async (): Promise<void> => {
       setIsLoading(true)
@@ -30,11 +33,13 @@ const Movies = (): JSX.Element => {
       if ((filmsFromStore != null) && filmsFromStore.length > 0) {
         setMoviesList(filmsFromStore)
       } else {
-        const res = await api.getMovies(type, 1)
-        setMoviesList(res?.data?.films ?? res?.data?.items)
-        setMoviesList(deleteNoPosterMovies(moviesList))
-
-        filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
+        await filmStore.fetchFilms(type, 1)
+        setMoviesList(deleteNoPosterMovies(filmStore.getFilms(type)))
+        // const res = await api.getMovies(type, 1)
+        // setMoviesList(res?.data?.films ?? res?.data?.items)
+        // setMoviesList(deleteNoPosterMovies(moviesList))
+        //
+        // filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
       }
       setIsLoading(false)
     }
@@ -81,7 +86,10 @@ const Movies = (): JSX.Element => {
       ? <>
         <div className={'movies-page'}>
           {moviesList?.map((item, index) => (
-            <MovieCard item={item} key={index}/>
+            <MovieCard nameRu={item.nameRu}
+                       id={'filmId' in item ? item.filmId : item.kinopoiskId}
+                       posterUrlPreview={item.posterUrlPreview}
+                       key={index}/>
           ))}
         </div>
         {moviesList.length >= 20 ? <ButtonLoad text={'Показать больше'} onClick={loadMore}/> : <></>}
