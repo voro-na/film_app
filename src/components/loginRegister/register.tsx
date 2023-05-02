@@ -28,7 +28,7 @@ const Register = (): JSX.Element => {
       })
   }
   return (
-    <AuthenticationForm title="Зарегистрироваться" handleClick={handleRegister} message={loginErr}/>
+    <AuthenticationForm title="Регистрация" handleClick={handleRegister} message={loginErr}/>
   )
 }
 

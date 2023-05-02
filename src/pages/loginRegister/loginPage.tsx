@@ -8,7 +8,8 @@ import Login from '../../components/loginRegister/login'
 const LoginPage = (): JSX.Element => {
   return <div className={'authentication-container'}>
     <Login/>
-    <div> Еще не зарегестрированы?<Link to={'/register'} className={'button'}>Зарегистрироваться</Link></div>
+    <span> Еще не зарегистрированы?</span>
+    <Link to={'/register'} className={'register_btn'}>Зарегистрироваться</Link>
   </div>
 }
 

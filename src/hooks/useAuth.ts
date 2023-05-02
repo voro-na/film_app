@@ -1,4 +1,5 @@
 import authenticationStore from '../store/authenticationStore'
+
 interface useAuthType {
   isAuth: boolean
   email: string | null
@@ -7,8 +8,9 @@ interface useAuthType {
 }
 const useAuth = (): useAuthType => {
   const { email, token, id } = { ...authenticationStore.initialState }
+
   return {
-    isAuth: !(email == null),
+    isAuth: !(email === null),
     email,
     token,
     id

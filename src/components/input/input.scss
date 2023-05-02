@@ -11,29 +11,34 @@
   gap: 1rem;
 
   &_input-container{
-    display: flex;
-    flex-direction: row;
+    @include flex(row, center, center);
     padding: 10px;
     border-radius: 20px;
     border: 2px solid #667fbf;
     background-color: transparent;
     grid-area: input;
+    font-size: 1.2rem;
 
   }
   &_input{
     color: #747179;
     background-color: transparent;
-    max-width: 200px;
+    max-width: 300px;
     width: calc(100vw - 100px);
     border: none;
+    font-size: 1rem;
   }
 }
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 43rem){
   .form_input{
-
+    font-size: 0.8rem;
+    max-width: 200px;
+  }
+  .form_input-container{
+    font-size: 1rem;
   }
   .icons{
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 }
 

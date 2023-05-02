@@ -29,7 +29,7 @@ const Login = (): JSX.Element => {
   }
 
   return (
-    <AuthenticationForm title="Войти" handleClick={handleLogin} message={loginErr}/>
+    <AuthenticationForm title="Вход" handleClick={handleLogin} message={loginErr}/>
   )
 }
 

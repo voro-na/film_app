@@ -8,7 +8,7 @@ import Register from '../../components/loginRegister/register'
 const RegisterPage = (): JSX.Element => {
   return <div className={'authentication-container'}>
     <Register/>
-    <div>Уже зарегестрированы? <Link to={'/login'} className={'button'}>Войти</Link></div>
+    <div>Уже зарегестрированы? <Link to={'/login'} className={'register_btn'}>Войти</Link></div>
   </div>
 }
 

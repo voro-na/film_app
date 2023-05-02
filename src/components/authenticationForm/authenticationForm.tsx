@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+
 import './authenticationForm.scss'
 
 interface AuthenticationFormProps {
@@ -22,7 +23,7 @@ const AuthenticationForm = ({
     <input type="email"
            value={email}
            placeholder="Введите email"
-           className="form_input-container "
+           className={'form_input-container '}
            onChange={(e) => {
              setEmail(e.target.value)
            }}/>
@@ -37,7 +38,7 @@ const AuthenticationForm = ({
       onClick={useCallback(() => {
         handleClick(email, password)
       }, [email, password])}
-      className={'button'}>
+      className={'register_btn'}>
       {title}
     </button>
 
