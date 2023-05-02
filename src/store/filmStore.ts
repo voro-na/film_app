@@ -12,8 +12,15 @@ interface actors {
   professionKey: string
 }
 
+interface similarMovies {
+  filmId: number
+  nameRu: string
+  posterUrlPreview: string
+}
+
 interface filmType {
   actors: actors[]
+  similarMovies: similarMovies[]
 }
 
 class FilmStore {
@@ -25,7 +32,8 @@ class FilmStore {
   }
 
   filmDetailes: filmType = {
-    actors: []
+    actors: [],
+    similarMovies: []
   }
 
   constructor () {
@@ -52,7 +60,11 @@ class FilmStore {
     this.filmDetailes.actors = res?.data
   }
 
-  // todo fix any
+  async fetchSimilarMovies (id: number): Promise<void> {
+    const res = await api.getSimilarMovies(id)
+    this.filmDetailes.similarMovies = res?.data.items
+  }
+
   setFilms (arr: any, type: string): void {
     switch (type) {
       case 'POPULAR_FILMS':
@@ -107,6 +119,10 @@ class FilmStore {
 
   getPersons (): actors[] {
     return this.filmDetailes.actors
+  }
+
+  getSimilarMovies (): similarMovies[] {
+    return this.filmDetailes.similarMovies
   }
 }
 

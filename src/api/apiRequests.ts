@@ -13,9 +13,6 @@ const api = {
     }
     return await FetchData(`v2.2/films/top?type=${type}&page=${page}`)
   },
-  getMovieByKeyword: async (keyWord: string) => {
-    return await FetchData(`v2.1/films/search-by-keyword?keyword=${keyWord}&page=1`)
-  },
   getMovieId: async () => {
     return await FetchData('v2.2/films/filters')
   },
@@ -30,6 +27,9 @@ const api = {
   },
   getActors: async (id: number) => {
     return await FetchData(`v1/staff?filmId=${id}`)
+  },
+  getSimilarMovies: async (id: number) => {
+    return await FetchData(`v2.2/films/${id}/similars`)
   }
 
 }

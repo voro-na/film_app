@@ -30,6 +30,8 @@ const Slider = observer(() => {
     } else {
       try {
         void fetchData()
+      } catch (e) {
+        void fetchData()
       } finally {
         setIsLoading(false)
       }

@@ -20,6 +20,7 @@ const FilmPage = (): JSX.Element => {
     const res = await api.getFilmInfo(state)
     trailerUrl.current = await filmStore.fetchTrailer(state)
     await filmStore.fetchActors(state)
+    await filmStore.fetchSimilarMovies(state)
     directors.current = filmStore.getDirectors()
     actors.current = filmStore.getActors()
     setFilmInfo(res?.data)

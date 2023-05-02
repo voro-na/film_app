@@ -6,25 +6,22 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-import styles from './personSlider.module.scss'
+import styles from './../personSlider/personSlider.module.scss'
 import { useWindowDimensions } from '../../hooks/windowDimenstions'
 import filmStore from '../../store/filmStore'
+import MovieCard from '../movie_card/movieCard'
 
-interface actors {
-  staffId: number
+interface similarMovies {
+  filmId: number
   nameRu: string
-  nameEn: string
-  description: string | null
-  posterUrl: string
-  professionText: string
-  professionKey: string
+  posterUrlPreview: string
 }
 
-const PersonSlider: FC = () => {
-  const [persons, setPersons] = useState<actors[]>([])
+const SimilarMovies: FC = () => {
+  const [movies, setMovies] = useState<similarMovies[]>([])
 
   useEffect(() => {
-    setPersons(filmStore.getPersons())
+    setMovies(filmStore.getSimilarMovies())
   }, [])
 
   useWindowDimensions()
@@ -36,27 +33,22 @@ const PersonSlider: FC = () => {
   }
 
   return <div className={styles.slider}>
-    <h1 className={styles.title}>Актёры и создатели</h1>
+    <h1 className={styles.title}>Похожие фильмы</h1>
     <Swiper modules={[Navigation]}
             navigation={true}
             slidesPerView={numberMovies}
             grabCursor={true}
             spaceBetween={10}>
 
-      {persons?.map((item, index) => (
+      {movies?.map((item, index) => (
         <SwiperSlide key={index}>
-            <img src={item.posterUrl}
-                 alt="poster-person"
-                 width={100}
-                 height={160}
-                 className={styles.photo}/>
-          <div>
-            {item.nameRu}
-          </div>
+          <MovieCard nameRu={item.nameRu}
+                     posterUrlPreview={item.posterUrlPreview}
+                     id={item.filmId}/>
         </SwiperSlide>
       ))}
     </Swiper>
   </div>
 }
 
-export default PersonSlider
+export default SimilarMovies

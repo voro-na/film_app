@@ -6,6 +6,7 @@ import styles from './film.module.scss'
 import { type detailedFilmInfo } from '../../models/models'
 import Like from '../like/like'
 import PersonSlider from '../personSlider/personSlider'
+import SimilarMovies from '../similarMovies/similarMovies'
 
 interface FilmProps {
   film: detailedFilmInfo
@@ -58,10 +59,10 @@ const Film: FC<FilmProps> = ({
       <img src={film.posterUrl}
            alt="poster"
            className={styles.poster}
-           width={350}
-           height={525}/>
+           width={450}
+           height={670}/>
     </div>
-
+    <SimilarMovies/>
     <PersonSlider/>
   </div>
 }

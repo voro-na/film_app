@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
 import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -19,7 +20,7 @@ interface ChildComponentProps {
 const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [moviesList, setMoviesList] = useState<movie[]>()
-
+  const navigate = useNavigate()
   const fetchData = async (): Promise<void> => {
     await filmStore.fetchFilms(type, 1)
     setMoviesList(filmStore.getFilms(type))
@@ -35,7 +36,10 @@ const MoviesList = ({ type }: ChildComponentProps): JSX.Element => {
         setIsLoading(false)
       } else {
         try {
-          await fetchData()
+          await fetchData().catch((err) => {
+            console.log(err)
+            navigate('/error')
+          })
         } finally {
           setIsLoading(false)
         }
