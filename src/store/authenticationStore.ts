@@ -90,10 +90,8 @@ class AuthenticationStore {
     onValue(favoriteMoviesRef, (snapshot) => {
       const data = snapshot.val()
       this.favoriteMovieCount = Object.keys(data).length
-
-      for (let i = 0; i < this.favoriteMovieCount; i++) {
-        const item = data['m' + String(i)]
-        this.favoriteMovies[item.movieTitle] = item
+      for (const key in data) {
+        this.favoriteMovies[data[key].movieTitle] = data[key]
       }
     })
   }
