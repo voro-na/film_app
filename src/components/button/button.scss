@@ -12,6 +12,10 @@
   text-align: center;
 
 }
+.center_btn{
+  @include flex(row, center, center);
+  margin: 0 auto;
+}
 .button:hover{
   background-color: $hover-color;
   color: white;

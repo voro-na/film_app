@@ -1,27 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 import api from '../api/apiRequests'
-
-interface actors {
-  staffId: number
-  nameRu: string
-  nameEn: string
-  description: string | null
-  posterUrl: string
-  professionText: string
-  professionKey: string
-}
-
-interface similarMovies {
-  filmId: number
-  nameRu: string
-  posterUrlPreview: string
-}
-
-interface filmType {
-  actors: actors[]
-  similarMovies: similarMovies[]
-}
+import {filmType,similarMovies, actors} from "../models/models";
 
 class FilmStore {
   films = {

@@ -64,3 +64,36 @@ export interface detailedFilmInfo {
 
 }
 export type movies = movie[] | filterMovie[]
+
+export interface user {
+  email: string | null
+  token: string | null
+  id: string | null
+}
+
+export interface movieCard {
+  movieTitle: string
+  movieUrl: string
+  id: number
+}
+
+export interface actors {
+  staffId: number
+  nameRu: string
+  nameEn: string
+  description: string | null
+  posterUrl: string
+  professionText: string
+  professionKey: string
+}
+
+export interface similarMovies {
+  filmId: number
+  nameRu: string
+  posterUrlPreview: string
+}
+
+export interface filmType {
+  actors: actors[]
+  similarMovies: similarMovies[]
+}

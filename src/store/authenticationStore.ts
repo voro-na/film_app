@@ -2,18 +2,7 @@ import { ref, set, onValue, update } from 'firebase/database'
 import { makeAutoObservable } from 'mobx'
 
 import { db } from '../firebase'
-
-interface user {
-  email: string | null
-  token: string | null
-  id: string | null
-}
-
-interface movieCard {
-  movieTitle: string
-  movieUrl: string
-  id: number
-}
+import {movieCard, user} from "../models/models";
 
 type obj = Record<string, movieCard>
 

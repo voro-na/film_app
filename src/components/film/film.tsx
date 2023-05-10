@@ -48,6 +48,12 @@ const Film: FC<FilmProps> = ({
             <span key={index}>{item}, </span>
           ))}
         </div>
+        <div className={styles.info_block}>
+          <span className={styles.description}>Жанры: </span>
+          {film.genres.map((item, index) => (
+              <span key={index}>{item.genre}, </span>
+          ))}
+        </div>
 
         <a className={cn('button', styles.button)} href={trailer} target="_blank" rel="noopener noreferrer">
           {(trailer !== undefined) ? 'Трейлер' : 'Трейлер недоступен'}</a>
