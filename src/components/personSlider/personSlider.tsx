@@ -19,13 +19,15 @@ interface actors {
   professionText: string
   professionKey: string
 }
-
-const PersonSlider: FC = () => {
+interface props {
+  id: number
+}
+const PersonSlider: FC<props> = (props) => {
   const [persons, setPersons] = useState<actors[]>([])
 
   useEffect(() => {
     setPersons(filmStore.getPersons())
-  }, [])
+  }, [props.id])
 
   useWindowDimensions()
   let numberMovies

@@ -2,7 +2,7 @@ import { ref, set, onValue, update } from 'firebase/database'
 import { makeAutoObservable } from 'mobx'
 
 import { db } from '../firebase'
-import {movieCard, user} from "../models/models";
+import { type movieCard, type user } from '../models/models'
 
 type obj = Record<string, movieCard>
 
@@ -15,8 +15,9 @@ const initial: user = {
 class AuthenticationStore {
   name = 'user'
   initialState = initial
-  favoriteMovieCount = 0
+
   favoriteMovies: obj = {}
+  ratedMovies: obj = {}
 
   constructor () {
     makeAutoObservable(this)
@@ -55,32 +56,54 @@ class AuthenticationStore {
     this.favoriteMovies = {}
   }
 
-  addFavoriteMovie (movieTitle: string, movieUrl: string, id: number): void {
+  addMovie (movieTitle: string, movieUrl: string, id: number, rating: number, type: string): void {
     const movie = {
       movieTitle,
       movieUrl,
-      id
+      id,
+      rating
     }
-    if (this.favoriteMovies[movieTitle] === undefined) {
-      this.favoriteMovies[movieTitle] = (movie)
-      this.addFavoriteMovieFirebase(movie)
+    if (type === 'favoriteMovies' && this.favoriteMovies[movieTitle] === undefined) {
+      this.favoriteMovies[movieTitle] = movie
+      this.addMovieFirebase(movie, type)
+    }
+    if (type === 'ratedMovies') {
+      this.ratedMovies[movieTitle] = movie
+      this.addMovieFirebase(movie, type)
     }
   }
 
-  addFavoriteMovieFirebase (movie: any): void {
-    const title = 'm' + String(this.favoriteMovieCount++)
-    void update(ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies'), {
-      [title]: movie
-    })
+  addMovieFirebase (movie: any, type: string): void {
+    const title = 'm' + String(movie.id)
+    if (type === 'favoriteMovies') {
+      void update(ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies'), {
+        [title]: movie
+      })
+    }
+    if (type === 'ratedMovies') {
+      void update(ref(db, 'users/' + String(this.initialState.id) + '/rated-movies'), {
+        [title]: movie
+      })
+    }
+  }
+
+  getRating (title: string): number | undefined {
+    return this.ratedMovies[title]?.rating
   }
 
   getFavoriteMoviesFirebase (): void {
     const favoriteMoviesRef = ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies')
+    const ratedMoviesRef = ref(db, 'users/' + String(this.initialState.id) + '/rated-movies')
     onValue(favoriteMoviesRef, (snapshot) => {
       const data = snapshot.val()
-      this.favoriteMovieCount = Object.keys(data).length
       for (const key in data) {
         this.favoriteMovies[data[key].movieTitle] = data[key]
+      }
+    })
+    onValue(ratedMoviesRef, (snapshot) => {
+      const data = snapshot.val()
+      for (const key in data) {
+        this.ratedMovies[data[key].movieTitle] = data[key]
       }
     })
   }

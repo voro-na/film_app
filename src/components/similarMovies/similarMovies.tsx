@@ -17,12 +17,16 @@ interface similarMovies {
   posterUrlPreview: string
 }
 
-const SimilarMovies: FC = () => {
+interface props {
+  id: number
+}
+
+const SimilarMovies: FC<props> = (props) => {
   const [movies, setMovies] = useState<similarMovies[]>([])
 
   useEffect(() => {
     setMovies(filmStore.getSimilarMovies())
-  }, [])
+  }, [props.id])
 
   useWindowDimensions()
   let numberMovies

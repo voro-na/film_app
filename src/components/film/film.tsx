@@ -6,6 +6,7 @@ import styles from './film.module.scss'
 import { type detailedFilmInfo } from '../../models/models'
 import Like from '../like/like'
 import PersonSlider from '../personSlider/personSlider'
+import Rating from '../rating/rating'
 import SimilarMovies from '../similarMovies/similarMovies'
 
 interface FilmProps {
@@ -30,7 +31,8 @@ const Film: FC<FilmProps> = ({
         </div>
 
         <div className={styles.shortInfo}>
-          <span className={styles.shortInfo_rating}>{film.ratingKinopoisk ?? film.ratingAwait}</span>
+          <span className={styles.shortInfo_rating}>{film.ratingKinopoisk?.toFixed(1) ?? film.ratingAwait}
+            {(film.ratingKinopoisk == null) ? '%' : ''}</span>
           <span>{film.year}</span>
           <span>{film.countries[0].country}</span>
         </div>
@@ -51,7 +53,7 @@ const Film: FC<FilmProps> = ({
         <div className={styles.info_block}>
           <span className={styles.description}>Жанры: </span>
           {film.genres.map((item, index) => (
-              <span key={index}>{item.genre}, </span>
+            <span key={index}>{item.genre}, </span>
           ))}
         </div>
 
@@ -60,7 +62,7 @@ const Film: FC<FilmProps> = ({
 
         <h3 className={styles.title_blue}>Описание</h3>
         <p className={styles.description}>{film.description}</p>
-
+        <Rating id={film.kinopoiskId} posterUrlPreview={film.posterUrl} nameRu={film.nameRu}/>
       </section>
       <img src={film.posterUrl}
            alt="poster"
@@ -68,8 +70,8 @@ const Film: FC<FilmProps> = ({
            width={450}
            height={670}/>
     </div>
-    <SimilarMovies/>
-    <PersonSlider/>
+    <SimilarMovies id={film.kinopoiskId}/>
+    <PersonSlider id={film.kinopoiskId}/>
   </div>
 }
 

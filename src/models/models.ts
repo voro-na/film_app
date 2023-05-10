@@ -30,6 +30,7 @@ export interface filterMovie {
   ratingKinopoisk: number
   type: string
 }
+
 export interface county {
   id: number
   country: string
@@ -39,6 +40,7 @@ export interface genre {
   id: number
   genre: string
 }
+
 export interface detailedFilmInfo {
   kinopoiskId: number
   nameRu: string
@@ -63,6 +65,7 @@ export interface detailedFilmInfo {
   genres: Array<{ genre: string }>
 
 }
+
 export type movies = movie[] | filterMovie[]
 
 export interface user {
@@ -75,6 +78,7 @@ export interface movieCard {
   movieTitle: string
   movieUrl: string
   id: number
+  rating?: number
 }
 
 export interface actors {
