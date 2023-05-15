@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/film_app/static/css/main.4c48a8ba.css",
-    "main.js": "/film_app/static/js/main.2dffc995.js",
+    "main.css": "/film_app/static/css/main.c3fdd4f8.css",
+    "main.js": "/film_app/static/js/main.f2d5de32.js",
     "index.html": "/film_app/index.html"
   },
   "entrypoints": [
-    "static/css/main.4c48a8ba.css",
-    "static/js/main.2dffc995.js"
+    "static/css/main.c3fdd4f8.css",
+    "static/js/main.f2d5de32.js"
   ]
 }
