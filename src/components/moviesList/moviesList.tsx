@@ -11,7 +11,7 @@ import { useWindowDimensions } from '../../hooks/windowDimenstions'
 import { type movie, type filterMovie } from '../../models/models'
 import filmStore from '../../store/filmStore'
 import Loader from '../loader/loader'
-import MovieCard from '../movie_card/movieCard'
+import MovieCard from '../movieCard/movieCard'
 
 interface ChildComponentProps {
   type: string

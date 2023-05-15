@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 
-import ErrorPage from './errorPage/errorPage'
+import Error from './error/error'
 import ExtensionalSearch from './extentionalSearch/extensionalSearch'
-import Home from './home/Home'
+import Home from './home/home'
 import LoginPage from './loginRegister/loginPage'
 import RegisterPage from './loginRegister/registerPage'
 import Movies from './movies/movies'
@@ -21,7 +21,7 @@ const MainRoutes = (): JSX.Element => {
     <Route path="/register" element={<RegisterPage/>}/>
     <Route path="/profile" element={<Profile/>}/>
     <Route path="/film/:id" element={<FilmPage/>}/>
-    <Route path="/error" element={<ErrorPage/>}/>
+    <Route path="/error" element={<Error/>}/>
   </Routes>
 }
 

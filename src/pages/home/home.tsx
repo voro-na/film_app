@@ -2,7 +2,7 @@ import React from 'react'
 
 import './home.scss'
 import Button from '../../components/button/button'
-import MoviesList from '../../components/movies_list/moviesList'
+import MoviesList from '../../components/moviesList/moviesList'
 import Slider from '../../components/slider/slider'
 
 const types = [

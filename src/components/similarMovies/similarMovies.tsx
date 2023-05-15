@@ -9,7 +9,7 @@ import 'swiper/css/navigation'
 import styles from './../personSlider/personSlider.module.scss'
 import { useWindowDimensions } from '../../hooks/windowDimenstions'
 import filmStore from '../../store/filmStore'
-import MovieCard from '../movie_card/movieCard'
+import MovieCard from '../movieCard/movieCard'
 
 interface similarMovies {
   filmId: number

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 
 import Footer from './components/footer/footer'
 import Header from './components/header/header'
@@ -9,12 +9,12 @@ import './styles/main.scss'
 
 function App (): JSX.Element {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Header/>
       <MainRoutes/>
       <Footer/>
 
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

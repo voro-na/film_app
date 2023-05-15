@@ -4,7 +4,7 @@ import axios from 'axios'
 // 8ecf30a1-174b-4665-8ef2-1c1ab75dcb24
 const apiConfig = {
   baseUrl: 'https://kinopoiskapiunofficial.tech/api/',
-  apiKey: '8ecf30a1-174b-4665-8ef2-1c1ab75dcb24'
+  apiKey: '14c5c1fc-3916-4e09-a79c-cde38802b177'
 }
 
 // todo fix any

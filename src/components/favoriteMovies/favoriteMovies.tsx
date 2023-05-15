@@ -3,7 +3,7 @@ import React, { useState, type FC } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import authenticationStore from '../../store/authenticationStore'
-import MovieCard from '../movie_card/movieCard'
+import MovieCard from '../movieCard/movieCard'
 
 const FavoriteMovies: FC = observer(() => {
   const [favoriteMovies] = useState(authenticationStore.favoriteMovies)

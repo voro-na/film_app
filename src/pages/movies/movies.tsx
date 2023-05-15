@@ -7,7 +7,7 @@ import api from '../../api/apiRequests'
 import { ButtonLoad } from '../../components/button/button'
 import Input from '../../components/input/input'
 import Loader from '../../components/loader/loader'
-import MovieCard from '../../components/movie_card/movieCard'
+import MovieCard from '../../components/movieCard/movieCard'
 import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
 
