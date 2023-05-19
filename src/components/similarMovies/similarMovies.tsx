@@ -36,7 +36,8 @@ const SimilarMovies: FC<props> = (props) => {
     numberMovies = 4
   }
 
-  return <div className={styles.slider}>
+  return (movies.length > 0
+    ? <div className={styles.slider}>
     <h1 className={styles.title}>Похожие фильмы</h1>
     <Swiper modules={[Navigation]}
             navigation={true}
@@ -53,6 +54,7 @@ const SimilarMovies: FC<props> = (props) => {
       ))}
     </Swiper>
   </div>
+    : <></>)
 }
 
 export default SimilarMovies

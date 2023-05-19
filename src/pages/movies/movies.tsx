@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
-import './movies.scss'
+import styles from './movies.module.scss'
 import api from '../../api/apiRequests'
 import { ButtonLoad } from '../../components/button/button'
-import Input from '../../components/input/input'
 import Loader from '../../components/loader/loader'
-import MovieCard from '../../components/movieCard/movieCard'
+import MoviesGrid from '../../components/moviesGrid/moviesGrid'
 import { type movies } from '../../models/models'
 import filmStore from '../../store/filmStore'
-
-// todo load page from login page
 
 const Movies = (): JSX.Element => {
   const [, setIsLoading] = useState<boolean>(false)
@@ -19,6 +16,7 @@ const Movies = (): JSX.Element => {
   const [page, setPage] = useState<number>(1)
 
   const { state } = useLocation()
+  const title = useRef<string>()
 
   const type = typeof state === 'string' ? state : 'EXTENSIONAL_SEARCH'
 
@@ -35,11 +33,6 @@ const Movies = (): JSX.Element => {
       } else {
         await filmStore.fetchFilms(type, 1)
         setMoviesList(deleteNoPosterMovies(filmStore.getFilms(type)))
-        // const res = await api.getMovies(type, 1)
-        // setMoviesList(res?.data?.films ?? res?.data?.items)
-        // setMoviesList(deleteNoPosterMovies(moviesList))
-        //
-        // filmStore.setFilms(res?.data?.films ?? res?.data?.items, type)
       }
       setIsLoading(false)
     }
@@ -49,20 +42,21 @@ const Movies = (): JSX.Element => {
       setMoviesList(res?.data?.items)
     }
     setIsLoading(true)
+
     if (type === 'EXTENSIONAL_SEARCH') {
-      // getMoviesByLink().catch(err => err)
+      title.current = `Результаты поиска по запросу: "${String(state.title)}"`
       try {
         void getMoviesByLink()
       } finally {
         setIsLoading(false)
       }
     } else {
+      title.current = 'ФИЛЬМЫ'
       try {
         void getMovies()
       } finally {
         setIsLoading(false)
       }
-      // getMovies().catch(err => err)
     }
   }, [state])
 
@@ -80,20 +74,13 @@ const Movies = (): JSX.Element => {
   }, [moviesList])
 
   return (<>
-    <h1 className={'movies-page_title'}>ФИЛЬМЫ</h1>
-    <Input/>
+    <h1 className={styles.moviesPage_title}>{title.current}</h1>
+
     {moviesList.length !== 0
-      ? <>
-        <div className={'movies-page'}>
-          {moviesList?.map((item, index) => (
-            <MovieCard nameRu={item.nameRu}
-                       id={'filmId' in item ? item.filmId : item.kinopoiskId}
-                       posterUrlPreview={item.posterUrlPreview}
-                       key={index}/>
-          ))}
-        </div>
-        {moviesList.length >= 20 ? <ButtonLoad text={'Показать больше'} onClick={loadMore}/> : <></>}
-      </>
+      ? <div>
+      < MoviesGrid movies={moviesList}/>
+      { moviesList.length >= 20 ? <ButtonLoad text={'Показать больше'} onClick={loadMore}/> : <></> }
+      </div>
       : <Loader/>
     }
 

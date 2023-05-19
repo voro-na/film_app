@@ -11,7 +11,7 @@ const FavoriteMovies: FC = observer(() => {
     <h1 className={'movies-page_title'}>Избранное</h1>
     <div className={'movies-page'}>
       {Object.values(favoriteMovies).map((item, index) => (
-        <MovieCard nameRu={item.movieTitle} posterUrlPreview={item.movieUrl} id={item.id} key={index}/>
+        <MovieCard nameRu={item.nameRu} posterUrlPreview={item.posterUrl} id={item.kinopoiskId} key={index}/>
       ))}
     </div>
   </>

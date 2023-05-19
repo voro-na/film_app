@@ -47,20 +47,26 @@ const ExtensionalSearch = (): JSX.Element => {
       rateMin: formData.get('rateMin') as string,
       rateMax: formData.get('rateMax') as string
     }
-    if (data.year !== '—') {
+    if (data.year !== '') {
       data.yearTo = data.year
       data.yearFrom = data.year
+    }
+    if (data.yearTo.length > 0 && data.yearFrom.length === 1) {
+      data.yearFrom = '1900'
+    }
+    if (data.yearFrom.length > 0 && data.yearTo.length === 1) {
+      data.yearTo = '2050'
     }
     const link = `v2.2/films?${((data?.country) !== '—') ? `countries=${data.country}` : ''}${
       ((data?.genre) !== '—') ? `&genres=${data.genre}` : ''}${
       ((data?.type) !== '—') ? `&type=${data.type}` : ''}&order=NUM_VOTE&ratingFrom=${
       ((data?.rateMin) !== '') ? data.rateMin : '0'}&ratingTo=${
-      ((data?.rateMax) !== '') ? data.rateMax : '10'}&yearFrom=${
-      data.yearFrom !== '—' ? data.yearFrom : 1000}&yearTo=${
-      data.yearTo !== '—' ? data.yearTo : 3000}${
+      (data?.rateMax.length > 0) ? data.rateMax : '10'}&yearFrom=${
+      data.yearFrom.length > 0 ? data.yearFrom : 1000}&yearTo=${
+      data.yearTo.length > 0 ? data.yearTo : 3000}${
       ((data?.name) !== '') ? `&keyword=${data.name}` : ''}`
 
-    navigate('/movies', { state: { link } })
+    navigate('/movies', { state: { link, title: data.name } })
   }
 
   return (<>
@@ -109,14 +115,14 @@ const ExtensionalSearch = (): JSX.Element => {
       </label>
       Интервал
       <div className="form__row-section">
-        <label className="form__category" htmlFor="year">
+        <label className="form__category">
           с
           <select name="yearFrom" id="yearFrom" className="form__input">
             <option value="—">—</option>
             {years.map(item => <option key={item}>{item}</option>)}
           </select>
         </label>
-        <label className="form__category" htmlFor="year">
+        <label className="form__category">
           по
           <select name="yearTo" id="yearTo" className="form__input">
             <option value="—">—</option>

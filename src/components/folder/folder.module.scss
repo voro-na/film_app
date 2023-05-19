@@ -1,0 +1,32 @@
+.folderContainer {
+  margin-bottom: 10px;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 1rem auto;
+  padding: 1rem;
+
+  border: 2px solid #667fbf;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+
+.folderInput {
+  margin-top: 5px;
+  padding: 5px;
+  width: 200px;
+}
+
+.movie-list {
+  list-style-type: none;
+  margin-top: 10px;
+  padding-left: 0;
+}
+
+.movie-list li {
+  margin-bottom: 5px;
+}

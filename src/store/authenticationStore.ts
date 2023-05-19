@@ -1,4 +1,4 @@
-import { ref, set, onValue, update } from 'firebase/database'
+import { ref, set, onValue, update, remove } from 'firebase/database'
 import { makeAutoObservable } from 'mobx'
 
 import { db } from '../firebase'
@@ -57,24 +57,41 @@ class AuthenticationStore {
   }
 
   addMovie (movieTitle: string, movieUrl: string, id: number, rating: number, type: string): void {
-    const movie = {
-      movieTitle,
-      movieUrl,
-      id,
-      rating
+    if (this.favoriteMovies[movieTitle] !== undefined) {
+      this.removeMovie(movieTitle, id, type)
+    } else {
+      const movie = {
+        nameRu: movieTitle,
+        posterUrl: movieUrl,
+        kinopoiskId: id,
+        rating
+      }
+      if (type === 'favoriteMovies' && this.favoriteMovies[movieTitle] === undefined) {
+        this.favoriteMovies[movieTitle] = movie
+        this.addMovieFirebase(movie, type)
+      }
+      if (type === 'ratedMovies') {
+        this.ratedMovies[movieTitle] = movie
+        this.addMovieFirebase(movie, type)
+      }
     }
-    if (type === 'favoriteMovies' && this.favoriteMovies[movieTitle] === undefined) {
-      this.favoriteMovies[movieTitle] = movie
-      this.addMovieFirebase(movie, type)
+  }
+
+  removeMovie (movieTitle: string, id: number, type: string): void {
+    if (type === 'favoriteMovies') {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete this.favoriteMovies[movieTitle]
+      this.removeMovieFirebase(id, type)
     }
     if (type === 'ratedMovies') {
-      this.ratedMovies[movieTitle] = movie
-      this.addMovieFirebase(movie, type)
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete this.ratedMovies[movieTitle]
+      this.removeMovieFirebase(id, type)
     }
   }
 
   addMovieFirebase (movie: any, type: string): void {
-    const title = 'm' + String(movie.id)
+    const title = 'm' + String(movie.kinopoiskId)
     if (type === 'favoriteMovies') {
       void update(ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies'), {
         [title]: movie
@@ -84,6 +101,16 @@ class AuthenticationStore {
       void update(ref(db, 'users/' + String(this.initialState.id) + '/rated-movies'), {
         [title]: movie
       })
+    }
+  }
+
+  removeMovieFirebase (movie: number, type: string): void {
+    const title = 'm' + String(movie)
+    if (type === 'favoriteMovies') {
+      void remove(ref(db, 'users/' + String(this.initialState.id) + '/favorite-movies/' + title))
+    }
+    if (type === 'ratedMovies') {
+      void remove(ref(db, 'users/' + String(this.initialState.id) + '/rated-movies/' + title))
     }
   }
 
@@ -97,13 +124,13 @@ class AuthenticationStore {
     onValue(favoriteMoviesRef, (snapshot) => {
       const data = snapshot.val()
       for (const key in data) {
-        this.favoriteMovies[data[key].movieTitle] = data[key]
+        this.favoriteMovies[data[key].nameRu] = data[key]
       }
     })
     onValue(ratedMoviesRef, (snapshot) => {
       const data = snapshot.val()
       for (const key in data) {
-        this.ratedMovies[data[key].movieTitle] = data[key]
+        this.ratedMovies[data[key].nameRu] = data[key]
       }
     })
   }

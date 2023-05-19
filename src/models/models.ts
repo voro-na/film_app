@@ -75,9 +75,9 @@ export interface user {
 }
 
 export interface movieCard {
-  movieTitle: string
-  movieUrl: string
-  id: number
+  nameRu: string
+  posterUrl: string
+  kinopoiskId: number
   rating?: number
 }
 

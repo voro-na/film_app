@@ -4,6 +4,9 @@
   @include flex(column, center, none);
   margin: 0 0.2em;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   &__image{
     @include img();
     transition: 0.2s;

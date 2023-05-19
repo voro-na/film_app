@@ -21,9 +21,11 @@ const Like: FC<propsType> = ({
 
   const [auth] = useState(isAuth)
   const [showTooltip, setShowTooltip] = useState(false)
+  const [,setLike] = useState(false)
   const addToFavorite = useCallback(() => {
     if (auth) {
       authenticationStore.addMovie(nameRu, posterUrlPreview, id, 0, 'favoriteMovies')
+      setLike(prevState => !prevState)
     } else {
       setShowTooltip(true)
       setTimeout(() => {

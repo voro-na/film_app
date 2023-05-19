@@ -11,7 +11,7 @@ const Input = (): JSX.Element => {
     e.preventDefault()
     const link = `v2.2/films?order=NUM_VOTE&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&keyword=${input}&page=1`
     if (input !== '') {
-      navigate('/movies', { state: { link } })
+      navigate('/movies', { state: { link, title: input } })
       setInput('')
     }
   }, [input])
