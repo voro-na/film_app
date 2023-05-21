@@ -7,13 +7,13 @@ import api from '../../api/apiRequests'
 import { type county, type genre } from '../../models/models'
 
 const filmType = [{
-  id: 1,
+  filmId: 1,
   type: 'FILM'
 }, {
-  id: 2,
+  filmId: 2,
   type: 'TV_SERIES'
 }, {
-  id: 3,
+  filmId: 3,
   type: 'MINI_SERIES'
 }]
 let years = Array.from({ length: 100 }, (_, i) => i + 1925)
@@ -95,7 +95,7 @@ const ExtensionalSearch = (): JSX.Element => {
         Тип фильма
         <select name="type" id="type" className="form__input">
           <option value="—">—</option>
-          {filmType.map(item => <option value={item.type} key={item.id}>{item.type}</option>)}
+          {filmType.map(item => <option value={item.type} key={item.filmId}>{item.type}</option>)}
         </select>
       </label>
       Рейтинг

@@ -6,17 +6,20 @@ import { Link } from 'react-router-dom'
 
 import Like from '../like/like'
 import LikeCollection from '../likeCollection/likeCollection'
+import Xmark from '../xmark/xmark'
 
 interface propsType {
   nameRu: string
   posterUrlPreview: string
   id: number
+  folderId?: string
 }
 
 const MovieCard: FC<propsType> = ({
   nameRu,
   posterUrlPreview,
-  id
+  id,
+  folderId
 }) => {
   return <div className={'movie-card'}>
     <Link to={`/film/${id}`} state={id}>
@@ -25,6 +28,7 @@ const MovieCard: FC<propsType> = ({
     <div className={'icons'}>
       <Like nameRu={nameRu} posterUrlPreview={posterUrlPreview} id={id}/>
       <LikeCollection nameRu={nameRu} posterUrlPreview={posterUrlPreview} filmId={id}/>
+      {folderId !== undefined && folderId?.length > 0 && <Xmark nameRu={nameRu} posterUrlPreview={posterUrlPreview} id={id} folderId={folderId}/>}
     </div>
 
     <Link to={`/film/${id}`} state={id}>

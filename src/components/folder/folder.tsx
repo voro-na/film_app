@@ -29,7 +29,7 @@ const Folder: FC<props> = observer(({
     if (collection !== undefined) {
       setCollections(Object.values(collection))
     }
-  }, [])
+  }, [typeof collection === 'object' && Object.keys(collection).length])
 
   const handleFolderClick = (): void => {
     setIsOpen(!isOpen)
@@ -44,7 +44,7 @@ const Folder: FC<props> = observer(({
         {id !== 'favoriteMovies' && <i className="fa-solid fa-xmark" onClick={handleDeleteClick}></i>}
       </div>
       {isOpen && (
-        <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections}/>
+        <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections} folderId={id}/>
       )}
     </div>
   )

@@ -112,6 +112,14 @@ class AuthenticationStore {
     }
   }
 
+  removeMovieFromCollection (movieTitle: string, id: number, type: string): void {
+    const title = 'm' + String(id)
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete this.folders[type][title]
+    void remove(ref(db, 'users/' + String(this.initialState.id) +
+      '/collectionsItems/' + type + '/' + title))
+  }
+
   addMovieFirebase (movie: any, type: string): void {
     const title = 'm' + String(movie.kinopoiskId)
     if (type === 'favoriteMovies') {
@@ -127,7 +135,7 @@ class AuthenticationStore {
   }
 
   addMovieToCollectionFirebase (movie: any, collection: string): void {
-    const title = 'm' + String(movie.id)
+    const title = 'm' + String(movie.filmId)
     void update(ref(db, 'users/' + String(this.initialState.id) + '/collectionsItems/' + collection), {
       [title]: movie
     })

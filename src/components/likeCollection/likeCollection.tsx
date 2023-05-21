@@ -33,7 +33,7 @@ const LikeCollection: FC<propsType> = ({
       const movie = {
         nameRu,
         posterUrl: posterUrlPreview,
-        id: filmId
+        filmId
       }
       authenticationStore.addMovieToCollectionFirebase(movie, id)
       setIsOpen(false)

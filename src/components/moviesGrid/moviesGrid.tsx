@@ -6,15 +6,21 @@ import MovieCard from '../movieCard/movieCard'
 
 interface props {
   movies: movies | movieCard[]
+  folderId?: string
 }
-const MoviesGrid: FC<props> = (movies) => {
+
+const MoviesGrid: FC<props> = ({
+  movies,
+  folderId
+}) => {
   return (<>
     <div className={styles.container}>
       <div className={styles.moviesPage}>
-        {movies.movies?.map((item, index) => (
+        {movies?.map((item, index) => (
           <MovieCard nameRu={item.nameRu}
                      id={'filmId' in item ? item.filmId : item.kinopoiskId}
                      posterUrlPreview={item.posterUrl}
+                     folderId={folderId ?? ''}
                      key={index}/>
         ))}
       </div>
