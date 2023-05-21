@@ -5,12 +5,13 @@ import { db } from '../firebase'
 import { type movieCard, type user } from '../models/models'
 
 type obj = Record<string, movieCard>
-
+type folderType = Record<string, obj>
 const initial: user = {
   email: null,
   token: null,
   id: null
 }
+type foldersName = Record<string, { title: string, id: string }>
 
 class AuthenticationStore {
   name = 'user'
@@ -18,6 +19,8 @@ class AuthenticationStore {
 
   favoriteMovies: obj = {}
   ratedMovies: obj = {}
+  folders: folderType = {}
+  foldersName: foldersName = {}
 
   constructor () {
     makeAutoObservable(this)
@@ -77,6 +80,25 @@ class AuthenticationStore {
     }
   }
 
+  addFolder (title: string): void {
+    const id = String(new Date().valueOf())
+    this.foldersName[id] = {
+      title,
+      id
+    }
+    this.folders[title] = {}
+    this.addFolderFirebase(title, id)
+  }
+
+  addFolderFirebase (title: string, id: string): void {
+    void update(ref(db, 'users/' + String(this.initialState.id) + '/collections/'), {
+      [id]: {
+        title,
+        id
+      }
+    })
+  }
+
   removeMovie (movieTitle: string, id: number, type: string): void {
     if (type === 'favoriteMovies') {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -102,6 +124,13 @@ class AuthenticationStore {
         [title]: movie
       })
     }
+  }
+
+  addMovieToCollectionFirebase (movie: any, collection: string): void {
+    const title = 'm' + String(movie.id)
+    void update(ref(db, 'users/' + String(this.initialState.id) + '/collectionsItems/' + collection), {
+      [title]: movie
+    })
   }
 
   removeMovieFirebase (movie: number, type: string): void {
@@ -131,6 +160,28 @@ class AuthenticationStore {
       const data = snapshot.val()
       for (const key in data) {
         this.ratedMovies[data[key].nameRu] = data[key]
+      }
+    })
+  }
+
+  getCollectionsFirebase (): void {
+    const moviesRef = ref(db, 'users/' + String(this.initialState.id) + '/collections')
+
+    onValue(moviesRef, (snapshot) => {
+      const data = snapshot.val()
+      for (const key in data) {
+        this.foldersName[key] = data[key]
+      }
+    })
+  }
+
+  getCollectionsItemsFirebase (): void {
+    const moviesRef = ref(db, 'users/' + String(this.initialState.id) + '/collectionsItems')
+
+    onValue(moviesRef, (snapshot) => {
+      const data = snapshot.val()
+      for (const key in data) {
+        this.folders[key] = data[key]
       }
     })
   }

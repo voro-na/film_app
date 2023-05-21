@@ -1,0 +1,23 @@
+.tooltip {
+  //position: relative;
+  //left: 80px;
+  //transform: translate(-50%, -50%);
+  background-color: #667fbf;
+  color: #191620FF;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.list{
+  padding: 1rem;
+  border: 2px solid #667fbf;
+  border-radius: 20px;
+  background-color: #191620FF;
+}
+.listItem{
+  color: white;
+  cursor: pointer;
+}
+.listItem:hover{
+  color: #667fbf;
+}

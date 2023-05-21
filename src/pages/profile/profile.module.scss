@@ -1,3 +1,35 @@
+@use "../../styles/main" as *;
+
 .container{
   margin: 0 2rem;
+}
+.folder {
+  cursor: pointer;
+  padding: 1rem;
+
+  border: 2px solid #667fbf;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: 0.4s;
+}
+.folder:hover{
+  background-color: $hover-color;
+  color: white;
+}
+.newFolder_block{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+}
+.input{
+  padding: 5px;
+  color: #747179;
+  background-color: transparent;
+  width: 300px;
+  border: 2px solid #667fbf;
+  border-radius: 4px;
+  align-self: stretch;
 }

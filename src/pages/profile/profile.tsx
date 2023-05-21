@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import cn from 'classnames'
 import { Navigate } from 'react-router-dom'
@@ -8,31 +8,78 @@ import Folder from '../../components/folder/folder'
 import useAuth from '../../hooks/useAuth'
 import authenticationStore from '../../store/authenticationStore'
 
-const Profile = (): JSX.Element => {
-  useEffect(() => {
-    authenticationStore.setUserFromLocalStore()
-    if (authenticationStore.favoriteMovies !== null && isAuth) {
-      authenticationStore.getFavoriteMoviesFirebase()
-    }
-  }, [])
+interface foldersType {
+  title: string
+  id: string
+}
 
+const Profile = (): JSX.Element => {
   const {
     isAuth,
     email
   } = useAuth()
 
   const [auth, setAuth] = useState(isAuth)
+  const [isOpen, setIsOpen] = useState(false)
+  const [input, setInput] = useState<string>('')
+  const [folders, setFolders] = useState<foldersType[]>([])
+  const [collections, setCollections] = useState<any>({})
+  useEffect(() => {
+    authenticationStore.setUserFromLocalStore()
+    if (authenticationStore.favoriteMovies !== null && isAuth) {
+      authenticationStore.getFavoriteMoviesFirebase()
+    }
+    authenticationStore.getCollectionsFirebase()
+    authenticationStore.getCollectionsItemsFirebase()
+    setFolders(Object.values(authenticationStore.foldersName))
+    setCollections(authenticationStore.folders)
+  }, [])
 
-  const logOut = (): void => {
+  useEffect(() => {
+    setFolders(Object.values(authenticationStore.foldersName))
+  }, [Object.keys(authenticationStore.foldersName).length])
+
+  const logOut = useCallback((): void => {
     authenticationStore.removeUser()
     authenticationStore.removeFavoriteMovies()
     localStorage.clear()
     setAuth(prevState => !prevState)
-  }
+  }, [])
+
+  const handleFolderClick = useCallback((): void => {
+    setIsOpen(!isOpen)
+  }, [isOpen])
+
+  const addNewFolder = useCallback((): void => {
+    if (input !== '') {
+      authenticationStore.addFolder(input)
+    }
+    setInput('')
+  }, [input])
+
   return auth
     ? (<div className={styles.container}>
       <h1 className={'movies-page_title'}>Welcome {email}</h1>
-      <Folder title="Избранное" id="favorite-movies"/>
+      <Folder title="Избранное" id="favoriteMovies"/>
+      {}
+      <div className={styles.newFolder_block}>
+        <button onClick={handleFolderClick} className={styles.folder}>Создать новую коллекцию</button>
+        {isOpen && (
+          <>
+            <input type="text"
+                   placeholder="Название коллекции"
+                   className={styles.input}
+                   value={input}
+                   onChange={e => {
+                     setInput(e.target.value)
+                   }}/>
+            <button className={styles.folder} onClick={addNewFolder}>Добавить</button>
+          </>
+
+        )}
+      </div>
+      {folders.map((temp) => (
+        <Folder title={temp.title} id={temp.id} key={temp.id} collection={collections[`${temp.id}`]}/>))}
       <button onClick={logOut} className={cn('button', 'center_btn')}>Выйти из профиля</button>
     </div>)
     : (

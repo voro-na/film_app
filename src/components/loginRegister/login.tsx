@@ -21,6 +21,7 @@ const Login = (): JSX.Element => {
         })
         localStorage.setItem('logged', JSON.stringify(authenticationStore.initialState))
         authenticationStore.getFavoriteMoviesFirebase()
+        authenticationStore.getCollectionsFirebase()
         navigate('/')
       })
       .catch(() => {

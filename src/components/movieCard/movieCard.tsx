@@ -5,6 +5,7 @@ import './movieCard.scss'
 import { Link } from 'react-router-dom'
 
 import Like from '../like/like'
+import LikeCollection from '../likeCollection/likeCollection'
 
 interface propsType {
   nameRu: string
@@ -21,7 +22,11 @@ const MovieCard: FC<propsType> = ({
     <Link to={`/film/${id}`} state={id}>
       <img className={'movie-card__image'} src={posterUrlPreview} alt="poster" width={270} height={407}/>
     </Link>
-    <Like nameRu={nameRu} posterUrlPreview={posterUrlPreview} id={id}/>
+    <div className={'icons'}>
+      <Like nameRu={nameRu} posterUrlPreview={posterUrlPreview} id={id}/>
+      <LikeCollection nameRu={nameRu} posterUrlPreview={posterUrlPreview} filmId={id}/>
+    </div>
+
     <Link to={`/film/${id}`} state={id}>
       <div className={'movie-card__title'}>{nameRu}</div>
     </Link>

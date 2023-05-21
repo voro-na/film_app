@@ -10,19 +10,26 @@ import MoviesGrid from '../moviesGrid/moviesGrid'
 interface props {
   title: string
   id: string
+  collection?: any
 }
 
 const Folder: FC<props> = observer(({
   title,
-  id
+  id,
+  collection
 }) => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(id === 'favoriteMovies')
   const [folderName] = useState(title)
-
   const [favoriteMovies, setFavoriteMovies] = useState<movieCard[]>([])
+  const [collections, setCollections] = useState<any>([])
   useEffect(() => {
     setFavoriteMovies(Object.values(authenticationStore.favoriteMovies))
-  }, [Object.values(authenticationStore.favoriteMovies)])
+  }, [Object.keys(authenticationStore.favoriteMovies).length])
+  useEffect(() => {
+    if (collection !== undefined) {
+      setCollections(Object.values(collection))
+    }
+  }, [])
 
   const handleFolderClick = (): void => {
     setIsOpen(!isOpen)
@@ -33,7 +40,7 @@ const Folder: FC<props> = observer(({
         {isOpen ? '▼' : '►'} {folderName}
       </div>
       {isOpen && (
-        <MoviesGrid movies={favoriteMovies}/>
+        <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections}/>
       )}
     </div>
   )
