@@ -185,6 +185,15 @@ class AuthenticationStore {
       }
     })
   }
+
+  removeCollectionFirebase (id: string): void {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete this.folders[id]
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+    delete this.foldersName[id]
+    void remove(ref(db, 'users/' + String(this.initialState.id) + '/collections/' + id))
+    void remove(ref(db, 'users/' + String(this.initialState.id) + '/collectionsItems/' + id))
+  }
 }
 
 export default new AuthenticationStore()

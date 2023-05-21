@@ -33,3 +33,14 @@
   border-radius: 4px;
   align-self: stretch;
 }
+@media only screen and (max-width: 600px){
+  .newFolder_block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .input{
+    align-self: center;
+  }
+}

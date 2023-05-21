@@ -34,10 +34,14 @@ const Folder: FC<props> = observer(({
   const handleFolderClick = (): void => {
     setIsOpen(!isOpen)
   }
+  const handleDeleteClick = (): void => {
+    authenticationStore.removeCollectionFirebase(id)
+  }
   return (
     <div className={styles.folderContainer}>
-      <div className={styles.folder} onClick={handleFolderClick}>
-        {isOpen ? '▼' : '►'} {folderName}
+      <div className={styles.folder} >
+        <div onClick={handleFolderClick}>{isOpen ? '▼' : '►'} {folderName}</div>
+        {id !== 'favoriteMovies' && <i className="fa-solid fa-xmark" onClick={handleDeleteClick}></i>}
       </div>
       {isOpen && (
         <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections}/>

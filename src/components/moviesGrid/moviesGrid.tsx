@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 
+import styles from './moviesGrid.module.scss'
 import { type movieCard, type movies } from '../../models/models'
-import styles from '../../pages/movies/movies.module.scss'
 import MovieCard from '../movieCard/movieCard'
 
 interface props {
