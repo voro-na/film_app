@@ -22,6 +22,7 @@ const Folder: FC<props> = observer(({
   const [folderName] = useState(title)
   const [favoriteMovies, setFavoriteMovies] = useState<movieCard[]>([])
   const [collections, setCollections] = useState<any>([])
+  const [isRemove, setRemove] = useState(false)
   useEffect(() => {
     setFavoriteMovies(Object.values(authenticationStore.favoriteMovies))
   }, [Object.keys(authenticationStore.favoriteMovies).length])
@@ -36,17 +37,20 @@ const Folder: FC<props> = observer(({
   }
   const handleDeleteClick = (): void => {
     authenticationStore.removeCollectionFirebase(id)
+    setRemove(true)
   }
   return (
-    <div className={styles.folderContainer}>
-      <div className={styles.folder} >
-        <div onClick={handleFolderClick}>{isOpen ? '▼' : '►'} {folderName}</div>
-        {id !== 'favoriteMovies' && <i className="fa-solid fa-xmark" onClick={handleDeleteClick}></i>}
+    !isRemove
+      ? <div className={styles.folderContainer}>
+        <div className={styles.folder}>
+          <div onClick={handleFolderClick}>{isOpen ? '▼' : '►'} {folderName}</div>
+          {id !== 'favoriteMovies' && <i className="fa-solid fa-xmark" onClick={handleDeleteClick}></i>}
+        </div>
+        {isOpen && (
+          <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections} folderId={id}/>
+        )}
       </div>
-      {isOpen && (
-        <MoviesGrid movies={id === 'favoriteMovies' ? favoriteMovies : collections} folderId={id}/>
-      )}
-    </div>
+      : <></>
   )
 })
 

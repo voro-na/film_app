@@ -24,12 +24,16 @@ const Header: React.FC = observer(() => {
   const [isAuth, setAuth] = useState(auth)
 
   useEffect(() => {
+    authenticationStore.setUserFromLocalStore()
     setAuth(auth)
   }, [auth])
 
   return (
     <div className={'header'}>
-      <Link to={'/'} className={'logo'}>LOGO</Link>
+      <Link to={'/'} className={'logo'}>
+        <div className={'logo-item'} >КИНО</div>
+      <div className={'logo-item'}>плёнка</div>
+      </Link>
       <Input/>
       <ul className={'header__list'}>
         {

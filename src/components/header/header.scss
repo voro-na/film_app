@@ -30,7 +30,12 @@
 .logo{
   grid-area: logo;
   flex-grow: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
 
+}
+.logo-item{
+  color: #667fbf;
 }
 
 @media only screen and (max-width: 43rem){

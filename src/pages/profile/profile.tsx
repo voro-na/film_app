@@ -19,13 +19,14 @@ const Profile = (): JSX.Element => {
     email
   } = useAuth()
 
-  const [auth, setAuth] = useState(isAuth)
+  const [auth, setAuth] = useState<boolean>(isAuth)
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState<string>('')
   const [folders, setFolders] = useState<foldersType[]>([])
   const [collections, setCollections] = useState<any>({})
   useEffect(() => {
     authenticationStore.setUserFromLocalStore()
+
     if (authenticationStore.favoriteMovies !== null && isAuth) {
       authenticationStore.getFavoriteMoviesFirebase()
     }
