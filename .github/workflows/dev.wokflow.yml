@@ -50,9 +50,6 @@ jobs:
       - name: deploy to gh-pages
         id: deployment
         uses: actions/deploy-pages@v1
-        with:
-          publish_dir: ./build
-          github_token: ${{secrets.GITHUB_TOKEN}}
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
