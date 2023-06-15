@@ -1,0 +1,68 @@
+name: Development workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Archive artifacts
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -r artifacts.zip build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-files
+          path: artifacts.zip
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./build
+          github_token: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: built-files
+          path: build
+
+      - name: Send artifacts to telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: send  zip
+          document: "build/artifacts.zip"
