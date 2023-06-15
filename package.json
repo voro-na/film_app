@@ -31,7 +31,7 @@
     "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "npm run react-scripts build",
     "deploy": "gh-pages -d build",
     "lint": "eslint --fix src"
   },
